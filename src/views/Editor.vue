@@ -55,12 +55,15 @@
         Upload existing config file (.json)
       </label>
       <FileUpload
+        class="w-full mt-2"
         accept=".json"
         customUpload
         @uploader="uploadJsonFile($event)"
-      />
+        mode="basic"
+      >
+      </FileUpload>
     </div>
-    <div class="flex justify-content-end gap-2">
+    <div class="flex justify-content-end gap-2 mt-5">
       <Button
         type="button"
         label="Cancel"
