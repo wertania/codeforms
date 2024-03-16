@@ -8,6 +8,21 @@ But what if you have a project where you are searching for a really free solutio
 
 Here we are! Formy.
 
+## Beta
+
+Formy is in beta at the moment but working.
+Documentation and Editor are in Work.
+
+## So easy to use, FREE for commercial and personal use
+
+You can use Formy with own hosting and without the need to have your own server.
+The only thing you need is a webhosting (or some other public web storagy) where you can put the Form configuration files.
+
+Each Form/Survey will be a simple and static JSON file. You can put it anywhere in the web.
+Then you can use our App Formy.com?url=<put-your-json-url-here> and that´s it!
+
+Self hosting is also no problem if you want to deploy the frontend on your own server.
+
 ## Open-Source Form Builder and Survey Builder
 
 With Formy you can create Forms and Survey with multiple pages. You have a long list of possible inputs.
@@ -23,6 +38,19 @@ git clone xxx
 docker build -t formy-local .
 docker run -p 8080:80 formy-local
 ´´´
+
+## Read privacy for your users
+
+You want to be sure to don´t have trouble GDPR/DSGVO(Europe)?
+Since Formy is a Single-Page-App without Backend the user will never send any data to us or someone else.
+Only the action that you define will be fired directly from the User´s browser.
+
+Great, isn´t it?
+
+## Use locally inside your companies network?
+
+Yes! You can do that. If you deploy your config JSON locally in your domain Formy.com will also work.
+The only things you need to take care about is that the server for the config have CORS allowed for Formy.com.
 
 ## Build on the top of a great Open-Source Stack
 
