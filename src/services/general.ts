@@ -34,8 +34,8 @@ export const getEmptyFormConfig = (data: {
         pages: {
             [firstPageId]: {
                 id: firstPageId,
-                name: 'Hey, welcome to the form!',
-                description: 'Please help us with your valuable feedback.',
+                name: 'The first page',
+                description: '',
                 form: formObjects,
             },
         },

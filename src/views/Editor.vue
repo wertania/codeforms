@@ -144,7 +144,7 @@
               longtext
             />
             <FormCheckbox
-              label="Show Description"
+              label="Show global name and description?"
               v-model="activeConfig.style.showNameAndDescription"
             />
             <FormCheckbox
@@ -166,30 +166,54 @@
               want to split your form into multiple steps.
             </InlineMessage>
             <div class="flex flex-column gap-3">
+              <!-- acticve page -->
+              <FormField
+                label="Name of the active page"
+                v-model="activeConfig.pages[activePage].name"
+              />
+              <FormField
+                label="Description of the active page"
+                v-model="activeConfig.pages[activePage].description"
+                longtext
+              />
+
               <Button
                 label="Add new Page"
                 icon="fa-solid fa-plus"
                 @click="addPage()"
               />
-              <div class="flex flex-column gap-2 border-1 p-2 surface-border">
+              <div class="flex flex-column gap-2">
                 <div
                   v-for="page in Object.keys(activeConfig.pages)"
                   :key="page"
+                  class="border-1 p-2 surface-border"
                 >
-                  <span>Page</span>
-                  <div class="flex align-items-center gap-3 mt-2">
+                  <div
+                    class="flex align-items-center gap-3 mt-2 cursor-pointer"
+                    @click="activePage = page"
+                  >
                     <div
-                      class="flex-auto px-1 py-3 border-round cursor-pointer border-1 surface-border"
+                      class="border-round border-1 border-300"
+                      style="width: 25px; height: 25px"
                       :class="
                         activePage === page ? 'bg-primary' : 'bg-secondary'
                       "
-                      @click="activePage = page"
-                    />
-                    <InputText
-                      v-model="activeConfig.pages[page].name"
-                      class="flex-auto"
-                    />
+                    >
+                      <i
+                        :class="`fa-solid ${
+                          activePage === page ? 'fa-check' : ''
+                        } m-0 p-1`"
+                      ></i>
+                    </div>
+                    <span class="flex-auto font-bold">
+                      {{
+                        activeConfig.pages[page].name === ''
+                          ? 'Page without name'
+                          : activeConfig.pages[page].name
+                      }}
+                    </span>
                     <Button
+                      v-if="Object.keys(activeConfig.pages).length > 1"
                       icon="fa-solid fa-trash"
                       @click="dropPage($event, page)"
                       class="p-button-warning"
@@ -251,6 +275,18 @@
   </Sidebar>
 
   <div style="height: calc(100vh - 95px)">
+    <Card
+      class="m-auto w-8 mt-5"
+      v-if="activeConfig.style.showNameAndDescription"
+    >
+      <template #title>
+        <h1>{{ activeConfig.name }}</h1>
+      </template>
+      <template #content>
+        {{ activeConfig.description }}
+      </template>
+    </Card>
+
     <Button
       style="left: 10px; top: 10px"
       @click="showAddItemSidebar = true"
@@ -309,8 +345,8 @@ const confirm = useConfirm();
 const showHelp = ref(false);
 const showNewFormDialog = ref(false);
 const newElement = ref({
-  name: '',
-  description: '',
+  name: 'Hey, welcome to your Form!',
+  description: 'Please help us with the following questions. Thank you!',
   template: null as SimpleTemplate | null,
 });
 const activeConfig: Ref<FormConfig> = ref(getEmptyFormConfig(newElement.value));
