@@ -1,5 +1,5 @@
 
-type FormType =
+export type FormType =
     | 'dropdown'
     | 'text'
     | 'textarea'
@@ -14,7 +14,7 @@ type FormType =
     | 'rating'
     | 'slider';
 
-interface FormResultTypeMap {
+export interface FormResultTypeMap {
     dropdown: 'string';
     text: 'string';
     textarea: 'string';
@@ -53,6 +53,7 @@ export interface FormPageObject {
 
 export interface FormConfig {
     id: string;
+    version: number;
     name: string;
     description: string;
     pages: {

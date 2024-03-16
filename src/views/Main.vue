@@ -1,50 +1,58 @@
 <template>
-  <Card class="m-auto w-8 mt-5" v-if="activeForm.style.showNameAndDescription">
-    <template #title>
-      <h1>{{ activeForm.name }}</h1>
-    </template>
-    <template #content>
-      {{ activeForm.description }}
-    </template>
-  </Card>
+  <template v-if="activeForm">
+    <Card
+      class="m-auto w-8 mt-5"
+      v-if="activeForm.style.showNameAndDescription"
+    >
+      <template #title>
+        <h1>{{ activeForm.name }}</h1>
+      </template>
+      <template #content>
+        {{ activeForm.description }}
+      </template>
+    </Card>
 
-  <!-- The actual visible input -->
-  <FormPage
-    v-if="activeForm.pages[activePage]"
-    :page="activeForm.pages[activePage]"
-    @update:page-result="valueStore[activePage] = $event"
-  >
-    <template #navigation>
-      <div class="flex justify-content-around flex-wrap">
-        <Button
-          v-if="activePage !== activeForm.startPageId"
-          @click="false"
-          :label="activeForm.style.previousButtonLabel ?? 'Previous'"
-          :disabled="true"
-          class="w-3"
-        />
-        <Button
-          v-if="nextValidPage.id"
-          @click="gotoPage(nextValidPage.id)"
-          class="w-3"
-          :label="activeForm.style.nextButtonLabel ?? 'Next'"
-        />
-        <Button
-          v-if="nextValidPage.lastPage"
-          @click="submit()"
-          class="w-3"
-          :label="activeForm.style.submitButtonLabel ?? 'Submit'"
-        />
-      </div>
-    </template>
-  </FormPage>
-  <div v-else>
-    <p>Error: The PageId {{ activePage }} was not found in configuration!</p>
-  </div>
+    <!-- The actual visible input -->
+    <FormPage
+      v-if="activeForm.pages[activePage]"
+      :page="activeForm.pages[activePage]"
+      @update:page-result="valueStore[activePage] = $event"
+    >
+      <template #navigation>
+        <div class="flex justify-content-around flex-wrap">
+          <Button
+            v-if="activePage !== activeForm.startPageId"
+            @click="false"
+            :label="activeForm.style.previousButtonLabel ?? 'Previous'"
+            :disabled="true"
+            class="w-3"
+          />
+          <Button
+            v-if="nextValidPage.id"
+            @click="gotoPage(nextValidPage.id)"
+            class="w-3"
+            :label="activeForm.style.nextButtonLabel ?? 'Next'"
+          />
+          <Button
+            v-if="nextValidPage.lastPage"
+            @click="submit()"
+            class="w-3"
+            :label="activeForm.style.submitButtonLabel ?? 'Submit'"
+          />
+        </div>
+      </template>
+    </FormPage>
+    <div v-else>
+      <p>Error: The PageId {{ activePage }} was not found in configuration!</p>
+    </div>
+  </template>
+  <template v-else>
+    <p>Loading...</p>
+  </template>
 </template>
 
 <script setup lang="ts">
-import { ref, ComputedRef, computed } from 'vue';
+import { ref, ComputedRef, computed, onMounted } from 'vue';
 import FormPage from '@components/FormPage.vue';
 import {
   FormPageObject,
@@ -52,26 +60,61 @@ import {
   PageResult,
   FormConfig,
 } from '@/types/index';
-import { getDemoConfig } from '@/services/demo';
 import { error } from '@/services/toast';
+import { validateFormConfig } from '@/services/validator';
 
 // Inner Form State
-const activeForm = ref<FormConfig>(getDemoConfig());
-
+const activeForm = ref<FormConfig>();
 // Inner pointer to the active page. Will be used to navigate through the form. Use the startPageId as default
-const activePage = ref<string>(activeForm.value.startPageId);
+const activePage = ref<string>('');
+// Inner Form Result Store
+const valueStore = ref<{ [pageId: string]: PageResult }>({});
+
+/**
+ * Try to parse the url parameter and return the needed parameters
+ */
+const parseUrlParmeter = (): {
+  url: string;
+} => {
+  const url = new URLSearchParams(window.location.search).get('url');
+  return { url: url ?? '' };
+};
+
+/**
+ * Get the form configuration from an external source
+ */
+const getConfigFromExternal = async (url: string): Promise<FormConfig> => {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(response.status + ' ' + response.body);
+    return validateFormConfig((await response.json()) as FormConfig);
+  } catch (e) {
+    throw new Error('Error: ' + e);
+  }
+};
+
+const init = async () => {
+  const { url } = parseUrlParmeter();
+  console.debug('get config', url);
+  if (url === '') {
+    error('No valid url found');
+    return;
+  }
+  activeForm.value = await getConfigFromExternal(url);
+  console.debug(JSON.stringify(activeForm.value, null, 2));
+  activePage.value = activeForm.value.startPageId;
+  valueStore.value = {
+    [activePage.value]: {
+      id: activePage.value,
+      name: activeForm.value.pages[activePage.value].name,
+      inputs: {},
+    },
+  };
+};
+// Change the active page
 const gotoPage = (pageId: string) => {
   activePage.value = pageId;
 };
-
-// Inner Form Result Store
-const valueStore = ref<{ [pageId: string]: PageResult }>({
-  [activePage.value]: {
-    id: activePage.value,
-    name: activeForm.value.pages[activePage.value].name,
-    inputs: {},
-  },
-});
 
 /**
  * Calculate the next page id based on the current page and the current input values
@@ -115,6 +158,7 @@ const getNextPageId = (
   return null; // If no conditions are met, return null or handle as needed
 };
 const checkAllRequired = (pageId: string): boolean => {
+  if (!activeForm.value) return false;
   const page = activeForm.value.pages[pageId];
   if (!page) return false;
   for (let input of page.form) {
@@ -134,6 +178,7 @@ const checkAllRequired = (pageId: string): boolean => {
  */
 const nextValidPage: ComputedRef<{ id: null | string; lastPage: boolean }> =
   computed(() => {
+    if (!activeForm.value) return { id: null, lastPage: false };
     const currentPage = activeForm.value.pages[activePage.value];
     const lastPage =
       !currentPage.navigationRules && !currentPage.defaultNextPageId;
@@ -169,6 +214,7 @@ const nextValidPage: ComputedRef<{ id: null | string; lastPage: boolean }> =
  * Submit the form
  */
 const submit = async () => {
+  if (!activeForm.value) return;
   console.debug('submit', valueStore.value);
   try {
     const response = await fetch(activeForm.value.target.url, {
@@ -186,4 +232,8 @@ const submit = async () => {
     error('Error: ' + evaluateCondition);
   }
 };
+
+onMounted(() => {
+  init();
+});
 </script>

@@ -1,0 +1,195 @@
+{
+  "id": "34e82ce4-92ea-49eb-9ca7-0260a0845155",
+  "version": 1,
+  "name": "Formy Demo",
+  "description": "Hey There! I´m Formy. Your personal form builder demo",
+  "startPageId": "f57813f3-01b0-42c3-88e6-640824620843",
+  "pages": {
+    "f57813f3-01b0-42c3-88e6-640824620843": {
+      "id": "f57813f3-01b0-42c3-88e6-640824620843",
+      "title": "Welcome to the form",
+      "name": "welcome",
+      "description": "This is a form",
+      "defaultNextPageId": "1676c4ef-29d4-4c7e-a2bc-bdba4af528c3",
+      "form": []
+    },
+    "1676c4ef-29d4-4c7e-a2bc-bdba4af528c3": {
+      "id": "1676c4ef-29d4-4c7e-a2bc-bdba4af528c3",
+      "title": "My Form",
+      "name": "my-form",
+      "description": "This is a form",
+      "navigationRules": [
+        {
+          "toPageId": "8864f0de-0026-4492-8429-8d59d55ea1ad",
+          "condition": {
+            "objectId": "7f877c68-f20d-486c-a5e6-8a6be7e34291",
+            "operator": "==",
+            "value": "Bjoern"
+          }
+        }
+      ],
+      "form": [
+        {
+          "id": "7f877c68-f20d-486c-a5e6-8a6be7e34291",
+          "order": 1,
+          "type": "text",
+          "label": "First Name",
+          "required": true,
+          "name": "firstname",
+          "resultType": "string"
+        },
+        {
+          "id": "abb3ffe2-16bd-4e7d-a6e0-5e6ad1aeab91",
+          "order": 3,
+          "type": "number",
+          "label": "Age",
+          "name": "age",
+          "resultType": "number"
+        },
+        {
+          "id": "1bda3c81-f31e-4e81-90a5-03602946e0f4",
+          "order": 4,
+          "type": "checkbox",
+          "label": "Are you a student?",
+          "name": "student",
+          "resultType": "boolean"
+        },
+        {
+          "id": "b7487162-70e3-464e-b2aa-a12515763c15",
+          "order": 5,
+          "type": "toggle",
+          "label": "Do you like Vue?",
+          "name": "vue",
+          "resultType": "boolean"
+        },
+        {
+          "id": "f005da43-fdbf-4c56-9525-856c49addc58",
+          "order": 6,
+          "type": "switch",
+          "label": "Do you like PrimeVue?",
+          "name": "primevue",
+          "resultType": "boolean"
+        },
+        {
+          "id": "c7942e36-39f6-4992-8261-169aa991efb1",
+          "order": 7,
+          "type": "rating",
+          "label": "Rate this form",
+          "name": "rating",
+          "resultType": "number"
+        },
+        {
+          "id": "8a8bd409-6a1f-41d0-8b1e-afd9d58cbc3d",
+          "order": 8,
+          "type": "slider",
+          "label": "How much do you like this form?",
+          "name": "slider",
+          "resultType": "number"
+        },
+        {
+          "id": "98b89c48-5eda-4b44-bc65-af0cbafd4257",
+          "order": 2,
+          "type": "textarea",
+          "label": "Tell me about yourself",
+          "name": "about",
+          "resultType": "string"
+        },
+        {
+          "id": "12527f9d-2c43-43bf-bd27-e8665e107284",
+          "order": 5,
+          "type": "dropdown",
+          "label": "Select your country",
+          "name": "country",
+          "resultType": "string",
+          "options": [
+            {
+              "label": "Germany",
+              "value": "DE"
+            },
+            {
+              "label": "United States",
+              "value": "US"
+            },
+            {
+              "label": "Canada",
+              "value": "CA"
+            },
+            {
+              "label": "Netherlands",
+              "value": "NL"
+            }
+          ]
+        },
+        {
+          "id": "36638f2d-d4f6-4159-8cfc-07c748c8e90d",
+          "order": 6,
+          "type": "list",
+          "label": "Select your favorite colors",
+          "name": "colors",
+          "resultType": "array",
+          "options": [
+            {
+              "label": "Red",
+              "value": "red"
+            },
+            {
+              "label": "Green",
+              "value": "green"
+            },
+            {
+              "label": "Blue",
+              "value": "blue"
+            },
+            {
+              "label": "Yellow",
+              "value": "yellow"
+            }
+          ]
+        },
+        {
+          "id": "416be50f-285b-4c1a-8fb4-db8f1ec8f9bc",
+          "order": 7,
+          "type": "radio",
+          "label": "Select your favorite fruit",
+          "name": "fruit",
+          "resultType": "string",
+          "options": [
+            {
+              "label": "Apple",
+              "value": "apple"
+            },
+            {
+              "label": "Banana",
+              "value": "banana"
+            },
+            {
+              "label": "Orange",
+              "value": "orange"
+            },
+            {
+              "label": "Strawberry",
+              "value": "strawberry"
+            }
+          ]
+        }
+      ]
+    },
+    "8864f0de-0026-4492-8429-8d59d55ea1ad": {
+      "id": "8864f0de-0026-4492-8429-8d59d55ea1ad",
+      "title": "Thank you for filling out the form",
+      "name": "thank-you",
+      "description": "This is the last page",
+      "form": []
+    }
+  },
+  "style": {
+    "showNameAndDescription": true,
+    "showNameAndDescriptionOnEveryPage": true,
+    "nextButtonLabel": "Go on",
+    "previousButtonLabel": "Go back",
+    "submitButtonLabel": "Submit all"
+  },
+  "target": {
+    "url": "http://localhost:5173/demp/endpoint"
+  }
+}
