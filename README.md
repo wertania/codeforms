@@ -52,15 +52,20 @@ Great, isn´t it?
 Yes! You can do that. If you deploy your config JSON locally in your domain Formy.com will also work.
 The only things you need to take care about is that the server for the config have CORS allowed for Formy.com.
 
-## Build on the top of a great Open-Source Stack
+## Trigger and submit data
 
-I was able to develop Formy because I could use a great Stack of Open Source Software under the hood.
+You need to define a URL that will be able to recieve a POST from the User´s browser.
+That means at the end of the Survey Formy will make an POST from the Browser with all data inside.
 
-- SPA: Vue3 + Vite + TypeScript
-- UI Components: PrimeVue
-- Style: PrimeVue Aura Theme
+So you are able to use a lot tools which are able to recieve POST-Webhooks like:
+- make.com
+- n8n
+- zapier
+- Node.RED
+- Microsoft PowerAutomate
+- Your own service!
 
-Thanks a lot for this stuff!
+## Testing
 
 ### Test with demo dataset
 
@@ -95,3 +100,13 @@ const configUrl = 'https://my-self-hosted-server/some/path/formy.test-config.v1.
 const encodedParameter = encodeURIComponent(configUrl);
 const formUrl = `https://formy.io?url=${encodedParameter}`;
 ´´´
+
+## Build on the top of a great Open-Source Stack
+
+I was able to develop Formy because I could use a great Stack of Open Source Software under the hood.
+
+- SPA: Vue3 + Vite + TypeScript
+- UI Components: PrimeVue
+- Style: PrimeVue Aura Theme
+
+Thanks a lot for this stuff!
