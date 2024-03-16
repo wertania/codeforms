@@ -274,7 +274,7 @@
     </div>
   </Sidebar>
 
-  <div style="height: calc(100vh - 95px)">
+  <div style="height: calc(100vh - 95px); overflow-y: scroll">
     <Card
       class="m-auto w-8 mt-5"
       v-if="activeConfig.style.showNameAndDescription"
@@ -287,15 +287,6 @@
       </template>
     </Card>
 
-    <Button
-      style="left: 10px; top: 10px"
-      @click="
-        showAddItemSidebar = true;
-        indexToAddObject = -1;
-      "
-      icon="fa-solid fa-add"
-      rounded
-    />
     <Card v-if="activeConfig.pages[activePage]" class="m-auto w-8 mt-5">
       <template #title>
         {{ activeConfig.pages[activePage].name }}
@@ -304,6 +295,17 @@
         {{ activeConfig.pages[activePage].description }}
       </template>
       <template #content>
+        <Button
+          v-if="activeConfig.pages[activePage].form.length === 0"
+          style="left: 10px; top: 10px"
+          @click="
+            showAddItemSidebar = true;
+            indexToAddObject = -1;
+          "
+          icon="fa-solid fa-add"
+          rounded
+        />
+
         <div class="flex flex-column gap-2">
           <ItemPreview
             v-for="object in activeConfig.pages[activePage].form"
