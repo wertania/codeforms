@@ -1,9 +1,9 @@
 <template>
   <Card class="m-auto w-8 mt-5">
-    <template #title>
+    <template #title v-if="page.title">
       {{ page.title }}
     </template>
-    <template #subtitle>
+    <template #subtitle v-if="page.description">
       {{ page.description }}
     </template>
     <template #content>
@@ -25,7 +25,7 @@
       <template v-for="object in page.form">
         <Card class="border-round-sm mb-2">
           <template #subtitle>
-            {{ object.label }}
+            {{ object.label }}{{ object.required ? '*' : '' }}
           </template>
           <template #content>
             <!-- multipe inputs -->
@@ -139,24 +139,30 @@
       </template>
     </template>
     <template #footer>
-      <Button>Back</Button>
-      <Button>Next</Button>
+      <slot name="navigation" />
     </template>
   </Card>
 </template>
 
 <script setup lang="ts">
-import {
-  FormResult,
-  FormPageObject,
-  PageResult,
-} from '@/types/index';
-import { Ref, defineProps, ref } from 'vue';
+import { FormResult, FormPageObject, PageResult } from '@/types/index';
+import { Ref, defineProps, ref, watch } from 'vue';
 
+/**
+ * Component properties
+ */
 const props = defineProps<{
   page: FormPageObject;
 }>();
 
+/**
+ * Component emitters
+ */
+const emit = defineEmits(['update:pageResult']);
+
+/**
+ * Get a emtpy default value for each input type
+ */
 const getEmptyValueForType = (
   type: FormResult['type'],
 ): FormResult['value'] => {
@@ -174,7 +180,9 @@ const getEmptyValueForType = (
   }
 };
 
-// build an object with all pageId's as keys. The values will be from type PageResult
+/**
+ * Component inner reference state
+ */
 const innerPageValue: Ref<PageResult> = ref({
   id: props.page.id,
   name: props.page.name,
@@ -191,4 +199,38 @@ const innerPageValue: Ref<PageResult> = ref({
     {} as { [objectId: string]: FormResult },
   ),
 });
+
+/**
+ * Watch for changes on the innerPageValue and emit the new value
+ */
+watch(innerPageValue, (newValue) => {
+  emit('update:pageResult', newValue);
+});
+
+/**
+ * Watch the page prop and update the innerPageValue
+ */
+watch(
+  () => props.page,
+  () => {
+    if (!props.page) return;
+    innerPageValue.value = {
+      id: props.page.id,
+      name: props.page.name,
+      inputs: props.page.form.reduce(
+        (acc, object) => {
+          acc[object.id] = {
+            id: object.id,
+            name: object.name,
+            type: object.resultType,
+            value: getEmptyValueForType(object.resultType) as any,
+          };
+          return acc;
+        },
+        {} as { [objectId: string]: FormResult },
+      ),
+    };
+  },
+  { immediate: true },
+);
 </script>
