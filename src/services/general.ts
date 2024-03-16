@@ -16,7 +16,7 @@ export const getEmptyFormConfig = (data: {
 
     if (data.template != null) {
         const templateData = data.template;
-        formObjects.push(...templateData.items.map((item, index) => {
+        formObjects.push(...templateData.items.map((item) => {
             return {
                 ...getEmptyFormObject(item.type),
                 label: item.label,
