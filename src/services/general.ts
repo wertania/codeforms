@@ -1,6 +1,5 @@
 import { FormConfig, FormObject, FormPageObject, FormType, SimpleTemplate } from "@/types";
 import { getGuid } from "./guid";
-import { FORM_TEMPLATES } from "./templates";
 
 const VERSION = 1;
 

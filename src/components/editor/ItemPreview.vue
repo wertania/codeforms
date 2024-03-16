@@ -161,5 +161,5 @@ defineProps<{
 
 const dummyValues: Ref<{ [id: string]: any }> = ref({});
 
-const emit = defineEmits(['update:trigger']);
+defineEmits(['update:trigger']);
 </script>
