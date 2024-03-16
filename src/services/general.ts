@@ -18,7 +18,7 @@ export const getEmptyFormConfig = (data: {
         const templateData = data.template;
         formObjects.push(...templateData.items.map((item, index) => {
             return {
-                ...getEmptyFormObject(item.type, index),
+                ...getEmptyFormObject(item.type),
                 label: item.label,
                 required: item.required,
             }
@@ -69,7 +69,7 @@ export function getEmptyPageObject(): FormPageObject {
 /**
  * get an empty instance of a Form Page Object
  */
-export function getEmptyFormObject(formType: FormType, order: number): FormObject {
+export function getEmptyFormObject(formType: FormType): FormObject {
     // Direct mapping is not feasible in a straightforward manner due to TypeScript's static typing,
     // so we use a switch case or if-else logic to manually assign the correct resultType
     let resultType: 'string' | 'number' | 'boolean' | 'array' = 'string';
@@ -107,7 +107,6 @@ export function getEmptyFormObject(formType: FormType, order: number): FormObjec
     const id = getGuid();
     return <FormObject>{
         id,
-        order,
         type: formType,
         label: 'Your label',
         name: 'object-' + id,

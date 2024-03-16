@@ -31,7 +31,6 @@ function validatePageObject(page: any): boolean {
 
 function validateFormObject(formObject: any): boolean {
     if (typeof formObject.id !== 'string' ||
-        typeof formObject.order !== 'number' ||
         !isTypeOfFormType(formObject.type) ||
         typeof formObject.label !== 'string' ||
         typeof formObject.name !== 'string' ||

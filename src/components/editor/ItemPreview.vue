@@ -145,6 +145,42 @@
         :disabled="true"
       />
     </template>
+    <template #footer>
+      <div class="flex justify-content-center align-items-center">
+        <Button
+          class="mr-3"
+          style="width: 20px; height: 20px"
+          icon="fa-solid fa-chevron-up"
+          @click="emit('update:action', 'move-up')"
+          rounded
+          severity="secondary"
+        />
+        <Button
+          class="ml-1 mr-1"
+          style="width: 30px; height: 30px"
+          icon="fa-solid fa-add"
+          @click="emit('update:action', 'add')"
+          rounded
+          severity="contrast"
+        />
+        <Button
+          class="ml-1 mr-1"
+          style="width: 20px; height: 20px"
+          icon="fa-solid fa-xmark"
+          @click="emit('update:action', 'drop')"
+          rounded
+          severity="danger"
+        />
+        <Button
+          class="ml-3"
+          style="width: 20px; height: 20px"
+          icon="fa-solid fa-chevron-down"
+          @click="emit('update:action', 'move-down')"
+          rounded
+          severity="secondary"
+        />
+      </div>
+    </template>
   </Card>
 </template>
 
@@ -161,5 +197,5 @@ defineProps<{
 
 const dummyValues: Ref<{ [id: string]: any }> = ref({});
 
-defineEmits(['update:trigger']);
+const emit = defineEmits(['update:trigger', 'update:action']);
 </script>

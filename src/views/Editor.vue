@@ -289,7 +289,10 @@
 
     <Button
       style="left: 10px; top: 10px"
-      @click="showAddItemSidebar = true"
+      @click="
+        showAddItemSidebar = true;
+        indexToAddObject = -1;
+      "
       icon="fa-solid fa-add"
       rounded
     />
@@ -306,6 +309,7 @@
             v-for="object in activeConfig.pages[activePage].form"
             :key="object.id"
             :object="object"
+            @update:action="appendActionToItem($event, object.id)"
           />
         </div>
       </template>
@@ -438,13 +442,19 @@ const possibleItems = [
 ];
 
 const showAddItemSidebar = ref(false);
+const indexToAddObject = ref(-1);
 const addItem = (type: FormType) => {
-  activeConfig.value.pages[activePage.value]?.form.push(
-    getEmptyFormObject(
-      type,
-      Object.keys(activeConfig.value.pages[activePage.value].form).length,
-    ),
-  );
+  if (indexToAddObject.value === -1) {
+    activeConfig.value.pages[activePage.value]?.form.push(
+      getEmptyFormObject(type),
+    );
+  } else {
+    activeConfig.value.pages[activePage.value]?.form.splice(
+      indexToAddObject.value + 1,
+      0,
+      getEmptyFormObject(type),
+    );
+  }
 };
 
 /**
@@ -469,6 +479,62 @@ const addPage = () => {
   const newPage = getEmptyPageObject();
   activeConfig.value.pages[newPage.id] = newPage;
   activePage.value = newPage.id;
+};
+
+/**
+ * Append an action to an item
+ */
+const appendActionToItem = (
+  action: 'move-up' | 'move-down' | 'add' | 'drop',
+  itemId: string,
+) => {
+  const item = activeConfig.value.pages[activePage.value].form.find(
+    (i) => i.id === itemId,
+  );
+  if (item) {
+    switch (action) {
+      case 'move-up':
+        const index =
+          activeConfig.value.pages[activePage.value].form.indexOf(item);
+        if (index > 0) {
+          activeConfig.value.pages[activePage.value].form.splice(
+            index - 1,
+            0,
+            activeConfig.value.pages[activePage.value].form.splice(index, 1)[0],
+          );
+        }
+        break;
+      case 'move-down':
+        const index2 =
+          activeConfig.value.pages[activePage.value].form.indexOf(item);
+        if (
+          index2 <
+          activeConfig.value.pages[activePage.value].form.length - 1
+        ) {
+          activeConfig.value.pages[activePage.value].form.splice(
+            index2 + 1,
+            0,
+            activeConfig.value.pages[activePage.value].form.splice(
+              index2,
+              1,
+            )[0],
+          );
+        }
+        break;
+      case 'add':
+        indexToAddObject.value = activeConfig.value.pages[
+          activePage.value
+        ].form.findIndex((i) => i.id === itemId);
+        showAddItemSidebar.value = true;
+        break;
+      case 'drop':
+        activeConfig.value.pages[activePage.value].form =
+          activeConfig.value.pages[activePage.value].form.filter(
+            (i) => i.id !== itemId,
+          );
+        break;
+    }
+  }
 };
 
 /**

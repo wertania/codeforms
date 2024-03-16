@@ -32,7 +32,6 @@ export interface FormResultTypeMap {
 
 export interface FormObject {
     id: string;
-    order: number;
     type: FormType;
     label: string;
     name: string;
