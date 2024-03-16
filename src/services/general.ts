@@ -105,7 +105,7 @@ export function getEmptyFormObject(formType: FormType): FormObject {
     }
 
     const id = getGuid();
-    return <FormObject>{
+    const res: FormObject = {
         id,
         type: formType,
         label: 'Your label',
@@ -113,4 +113,12 @@ export function getEmptyFormObject(formType: FormType): FormObject {
         required: false,
         resultType: resultType,
     }
+
+    if (formType === 'dropdown' || formType === 'radio' || formType === 'radioimage' || formType === 'multiselect' || formType === 'list') {
+        res.options = [
+            { label: 'Option 1', value: 'option1' },
+        ];
+    }
+
+    return res;
 }

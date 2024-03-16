@@ -26,124 +26,149 @@
         </span>
       </div>
     </template>
-    <template #content v-if="!editMode">
-      <!-- multipe inputs -->
-      <Dropdown
-        v-if="object.type === 'dropdown' && object.options"
-        :key="object.id"
-        :options="object.options"
-        v-model="dummyValues[object.id]"
-        option-label="label"
-        option-value="value"
-        class="w-full"
-        multiple
-        :disabled="true"
-      />
-      <Listbox
-        v-if="object.type === 'list' && object.options"
-        :key="object.id"
-        :options="object.options"
-        v-model="dummyValues[object.id]"
-        optionLabel="label"
-        optionValue="value"
-        class="w-full"
-        multiple
-        :disabled="true"
-      />
+    <template #content>
+      <template v-if="!editMode">
+        <!-- multipe inputs -->
+        <Dropdown
+          v-if="object.type === 'dropdown' && object.options"
+          :key="object.id"
+          :options="object.options"
+          v-model="dummyValues[object.id]"
+          option-label="label"
+          option-value="value"
+          class="w-full"
+          multiple
+          :disabled="true"
+        />
+        <Listbox
+          v-if="object.type === 'list' && object.options"
+          :key="object.id"
+          :options="object.options"
+          v-model="dummyValues[object.id]"
+          optionLabel="label"
+          optionValue="value"
+          class="w-full"
+          multiple
+          :disabled="true"
+        />
 
-      <!-- std. inputs -->
-      <InputText
-        v-if="object.type === 'text'"
-        :key="object.id"
-        :label="object.label"
-        v-model="<any>dummyValues[object.id]"
-        class="w-full"
-        :disabled="true"
-      />
-      <InputNumber
-        v-if="object.type === 'number'"
-        :key="object.id"
-        :label="object.label"
-        v-model="<any>dummyValues[object.id]"
-        class="w-full"
-        :disabled="true"
-      />
-      <Textarea
-        v-if="object.type === 'textarea'"
-        :key="object.id"
-        :label="object.label"
-        v-model="<any>dummyValues[object.id]"
-        class="w-full"
-        :disabled="true"
-      />
+        <!-- std. inputs -->
+        <InputText
+          v-if="object.type === 'text'"
+          :key="object.id"
+          :label="object.label"
+          v-model="<any>dummyValues[object.id]"
+          class="w-full"
+          :disabled="true"
+        />
+        <InputNumber
+          v-if="object.type === 'number'"
+          :key="object.id"
+          :label="object.label"
+          v-model="<any>dummyValues[object.id]"
+          class="w-full"
+          :disabled="true"
+        />
+        <Textarea
+          v-if="object.type === 'textarea'"
+          :key="object.id"
+          :label="object.label"
+          v-model="<any>dummyValues[object.id]"
+          class="w-full"
+          :disabled="true"
+        />
 
-      <!-- binary options -->
-      <Checkbox
-        v-if="object.type === 'checkbox'"
-        :key="object.id"
-        :label="object.label"
-        :binary="true"
-        v-model="<any>dummyValues[object.id]"
-        :disabled="true"
-      />
-      <ToggleButton
-        v-if="object.type === 'toggle'"
-        :key="object.id"
-        :label="object.label"
-        v-model="<any>dummyValues[object.id]"
-        :disabled="true"
-      />
-      <InputSwitch
-        v-if="object.type === 'switch'"
-        :key="object.id"
-        :label="object.label"
-        v-model="<any>dummyValues[object.id]"
-        :disabled="true"
-      />
+        <!-- binary options -->
+        <Checkbox
+          v-if="object.type === 'checkbox'"
+          :key="object.id"
+          :label="object.label"
+          :binary="true"
+          v-model="<any>dummyValues[object.id]"
+          :disabled="true"
+        />
+        <ToggleButton
+          v-if="object.type === 'toggle'"
+          :key="object.id"
+          :label="object.label"
+          v-model="<any>dummyValues[object.id]"
+          :disabled="true"
+        />
+        <InputSwitch
+          v-if="object.type === 'switch'"
+          :key="object.id"
+          :label="object.label"
+          v-model="<any>dummyValues[object.id]"
+          :disabled="true"
+        />
 
-      <!-- radio options -->
-      <template v-if="object.type === 'radioimage' && object.options">
-      </template>
-      <template v-if="object.type === 'radio' && object.options">
-        <div
-          v-for="option in object.options"
-          :key="option.value"
-          class="flex align-items-center"
-        >
-          <RadioButton
-            class="mt-3"
-            :inputId="object.id + '_' + option.value"
+        <!-- radio options -->
+        <template v-if="object.type === 'radioimage' && object.options">
+        </template>
+        <template v-if="object.type === 'radio' && object.options">
+          <div
+            v-for="option in object.options"
             :key="option.value"
-            :label="option.label"
-            :value="option.value"
-            v-model="dummyValues[object.id]"
-            :disabled="true"
+            class="flex align-items-center"
+          >
+            <RadioButton
+              class="mt-3"
+              :inputId="object.id + '_' + option.value"
+              :key="option.value"
+              :label="option.label"
+              :value="option.value"
+              v-model="dummyValues[object.id]"
+              :disabled="true"
+            />
+            <label class="mt-3 ml-2" :for="object.id + '_' + option.value">
+              {{ option.label }}
+            </label>
+          </div>
+        </template>
+
+        <!-- rating -->
+        <Rating
+          v-if="object.type === 'rating'"
+          :key="object.id"
+          :label="object.label"
+          v-model="<any>dummyValues[object.id]"
+          :cancel="false"
+          :disabled="true"
+        />
+
+        <!-- slider -->
+        <Slider
+          v-if="object.type === 'slider'"
+          :key="object.id"
+          :label="object.label"
+          v-model="<any>dummyValues[object.id]"
+          class="w-full"
+          :disabled="true"
+        />
+      </template>
+
+      <!-- Edit options if it has some -->
+      <template v-if="object.options && editMode">
+        <div class="mt-3">
+          <Button
+            icon="fa-solid fa-add"
+            label="Add Option"
+            class="w-full"
+            @click="object.options.push({ label: '', value: '' })"
           />
-          <label class="mt-3 ml-2" :for="object.id + '_' + option.value">
-            {{ option.label }}
-          </label>
+        </div>
+        <!-- list of text inputs for each input -->
+        <div class="mt-3">
+          <FormFieldTwoCol
+            v-for="option in object.options"
+            v-model:value1="option.label"
+            v-model:value2="option.value"
+            labelCol1="Label"
+            labelCol2="Value"
+            class="w-full"
+          />
         </div>
       </template>
-
-      <!-- rating -->
-      <Rating
-        v-if="object.type === 'rating'"
-        :key="object.id"
-        :label="object.label"
-        v-model="<any>dummyValues[object.id]"
-        :cancel="false"
-        :disabled="true"
-      />
-
-      <!-- slider -->
-      <Slider
-        v-if="object.type === 'slider'"
-        :key="object.id"
-        :label="object.label"
-        v-model="<any>dummyValues[object.id]"
-        class="w-full"
-        :disabled="true"
-      />
     </template>
     <template #footer>
       <div class="flex justify-content-center align-items-center">
@@ -188,6 +213,7 @@
 import { FormObject } from '@/types';
 import { Ref, defineProps, ref } from 'vue';
 import FormField from './FormField.vue';
+import FormFieldTwoCol from './FormFieldTwoCol.vue';
 
 const editMode = ref(false);
 

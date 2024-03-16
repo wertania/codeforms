@@ -376,7 +376,7 @@ const showGeneralConfig = ref(false);
 const possibleItems = [
   {
     label: 'Dropdown (one Choice)',
-    type: 'text',
+    type: 'dropdown',
     icon: 'fa-solid fa-caret-down',
   },
   {
