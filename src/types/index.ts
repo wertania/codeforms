@@ -41,6 +41,17 @@ export interface FormObject {
     options?: { label: string; value: string; icon?: string }[];
 }
 
+export interface SimpleTemplate {
+    templateName: string;
+    name: string;
+    description: string;
+    items: {
+        label: string;
+        type: FormType;
+        required: boolean;
+    }[];
+}
+
 export interface FormPageObject {
     id: string;
     title?: string;
@@ -71,10 +82,6 @@ export interface FormConfig {
         url: string;
     }
 }
-
-// export interface FullResult {
-//     [pageId: string]: PageResult;
-// }
 
 export interface PageResult {
     id: string;

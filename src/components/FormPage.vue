@@ -38,6 +38,7 @@
               option-value="value"
               class="w-full"
               multiple
+              autocomplete="off"
             />
             <Listbox
               v-if="object.type === 'list' && object.options"
@@ -48,6 +49,7 @@
               optionValue="value"
               class="w-full"
               multiple
+              autocomplete="off"
             />
 
             <!-- std. inputs -->
@@ -57,6 +59,7 @@
               :label="object.label"
               v-model="<any>innerPageValue.inputs[object.id].value"
               class="w-full"
+              autocomplete="off"
             />
             <InputNumber
               v-if="object.type === 'number'"
@@ -64,6 +67,7 @@
               :label="object.label"
               v-model="<any>innerPageValue.inputs[object.id].value"
               class="w-full"
+              autocomplete="off"
             />
             <Textarea
               v-if="object.type === 'textarea'"
@@ -71,6 +75,7 @@
               :label="object.label"
               v-model="<any>innerPageValue.inputs[object.id].value"
               class="w-full"
+              autocomplete="off"
             />
 
             <!-- binary options -->
@@ -80,18 +85,21 @@
               :label="object.label"
               :binary="true"
               v-model="<any>innerPageValue.inputs[object.id].value"
+              autocomplete="off"
             />
             <ToggleButton
               v-if="object.type === 'toggle'"
               :key="object.id"
               :label="object.label"
               v-model="<any>innerPageValue.inputs[object.id].value"
+              autocomplete="off"
             />
             <InputSwitch
               v-if="object.type === 'switch'"
               :key="object.id"
               :label="object.label"
               v-model="<any>innerPageValue.inputs[object.id].value"
+              autocomplete="off"
             />
 
             <!-- radio options -->
@@ -124,6 +132,7 @@
               :label="object.label"
               v-model="<any>innerPageValue.inputs[object.id].value"
               :cancel="false"
+              autocomplete="off"
             />
 
             <!-- slider -->
@@ -133,6 +142,7 @@
               :label="object.label"
               v-model="<any>innerPageValue.inputs[object.id].value"
               class="w-full"
+              autocomplete="off"
             />
           </template>
         </Card>
