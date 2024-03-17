@@ -42,7 +42,7 @@
         </div>
       </template>
     </FormPage>
-    <div v-else>
+    <div v-else class="m-auto w-full md:w-7">
       <p>Error: The PageId {{ activePage }} was not found in configuration!</p>
     </div>
   </template>

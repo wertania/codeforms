@@ -17,4 +17,11 @@ make the padding from the Card component smaller on smaller screens
     padding: 0.8rem;
   }
 }
+
+/** 
+A scrolling problem 
+*/
+body {
+  overflow-x: hidden;
+}
 </style>

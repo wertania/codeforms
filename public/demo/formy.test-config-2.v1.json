@@ -1,0 +1,172 @@
+{
+  "id": "5694725e-3e04-4aba-968d-cd005d6ade4f",
+  "version": 1,
+  "name": "Hey, welcome to your Form!",
+  "description": "Please help us with the following questions. Thank you!",
+  "startPageId": "",
+  "pages": {
+    "99fbc83b-baad-4d5e-9101-a93965375da2": {
+      "id": "99fbc83b-baad-4d5e-9101-a93965375da2",
+      "name": "The first page",
+      "description": "",
+      "form": [
+        {
+          "id": "b753f85f-e73e-4a75-8c4d-cc4176007a70",
+          "type": "dropdown",
+          "label": "My dropdown",
+          "name": "object-b753f85f-e73e-4a75-8c4d-cc4176007a70",
+          "required": false,
+          "resultType": "string",
+          "options": [
+            {
+              "label": "Option 1",
+              "value": "option1"
+            },
+            {
+              "label": "Option 1",
+              "value": "option2"
+            }
+          ]
+        },
+        {
+          "id": "2b07cfdf-886c-48c7-9008-4672fe734b5b",
+          "type": "text",
+          "label": "My text",
+          "name": "object-2b07cfdf-886c-48c7-9008-4672fe734b5b",
+          "required": false,
+          "resultType": "string"
+        },
+        {
+          "id": "ff3fed3c-460a-4bfb-889b-938d5b354cf6",
+          "type": "textarea",
+          "label": "My textarea",
+          "name": "object-ff3fed3c-460a-4bfb-889b-938d5b354cf6",
+          "required": false,
+          "resultType": "string"
+        },
+        {
+          "id": "3900ec6d-ec2d-48af-b46c-a64bc1625c41",
+          "type": "number",
+          "label": "My number",
+          "name": "object-3900ec6d-ec2d-48af-b46c-a64bc1625c41",
+          "required": false,
+          "resultType": "number"
+        },
+        {
+          "id": "d9b3909d-cca4-4e34-afa4-ca868e7c9a1b",
+          "type": "checkbox",
+          "label": "My checkbox",
+          "name": "object-d9b3909d-cca4-4e34-afa4-ca868e7c9a1b",
+          "required": false,
+          "resultType": "boolean"
+        },
+        {
+          "id": "8116c225-f8b9-433d-8acf-4b5ed08ae79f",
+          "type": "switch",
+          "label": "My switch",
+          "name": "object-8116c225-f8b9-433d-8acf-4b5ed08ae79f",
+          "required": false,
+          "resultType": "boolean"
+        },
+        {
+          "id": "31f8a683-a21b-42d8-8f45-622d6ca2fd21",
+          "type": "toggle",
+          "label": "My toggle",
+          "name": "object-31f8a683-a21b-42d8-8f45-622d6ca2fd21",
+          "required": false,
+          "resultType": "boolean"
+        },
+        {
+          "id": "a5cb1561-eb49-48ce-a622-12181478921e",
+          "type": "list",
+          "label": "My list",
+          "name": "object-a5cb1561-eb49-48ce-a622-12181478921e",
+          "required": false,
+          "resultType": "array",
+          "options": [
+            {
+              "label": "Option 1",
+              "value": "option1"
+            },
+            {
+              "label": "Option 2",
+              "value": "option2"
+            }
+          ]
+        },
+        {
+          "id": "03635523-2e98-4fae-b8ea-e363d1216052",
+          "type": "multiselect",
+          "label": "My multiselect",
+          "name": "object-03635523-2e98-4fae-b8ea-e363d1216052",
+          "required": false,
+          "resultType": "array",
+          "options": [
+            {
+              "label": "Option 1",
+              "value": "option1"
+            },
+            {
+              "label": "Option 2",
+              "value": "option2"
+            }
+          ]
+        },
+        {
+          "id": "8da6eac4-5970-47cc-bd45-a0b1ac74ac78",
+          "type": "radio",
+          "label": "My option",
+          "name": "object-8da6eac4-5970-47cc-bd45-a0b1ac74ac78",
+          "required": false,
+          "resultType": "string",
+          "options": [
+            {
+              "label": "Option 1",
+              "value": "option1"
+            }
+          ]
+        },
+        {
+          "id": "6c56a5d4-12d2-48b8-afe0-12e44606d187",
+          "type": "radioimage",
+          "label": "My radio-image",
+          "name": "object-6c56a5d4-12d2-48b8-afe0-12e44606d187",
+          "required": false,
+          "resultType": "string",
+          "options": [
+            {
+              "label": "Option 1",
+              "value": "option1"
+            }
+          ]
+        },
+        {
+          "id": "c459cb92-2361-4997-81a6-50bd9474e87c",
+          "type": "rating",
+          "label": "My rating",
+          "name": "object-c459cb92-2361-4997-81a6-50bd9474e87c",
+          "required": false,
+          "resultType": "number"
+        },
+        {
+          "id": "00203e50-6d9a-41f6-a676-7dd50f5eb092",
+          "type": "slider",
+          "label": "My slider",
+          "name": "object-00203e50-6d9a-41f6-a676-7dd50f5eb092",
+          "required": false,
+          "resultType": "number"
+        }
+      ]
+    }
+  },
+  "style": {
+    "showNameAndDescription": true,
+    "showNameAndDescriptionOnEveryPage": true,
+    "nextButtonLabel": "Next",
+    "previousButtonLabel": "Previous",
+    "submitButtonLabel": "Submit"
+  },
+  "target": {
+    "url": ""
+  }
+}

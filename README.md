@@ -73,9 +73,11 @@ One demo dataset is included in each installation statically.
 
 ´´´
 // plain
-/demo/formy.test-config.v1.json
+/demo/formy.test-config-1.v1.json
+/demo/formy.test-config-2.v1.json
 // encoded
-%2Fdemo%2Fformy.test-config.v1.json
+%2Fdemo%2Fformy.test-config-1.v1.json
+%2Fdemo%2Fformy.test-config-2.v1.json
 ´´´
 
 So you call this:
