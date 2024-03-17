@@ -71,17 +71,28 @@ export function getEmptyPageObject(): FormPageObject {
  */
 export function getEmptyFormObject(formType: FormType): FormObject {
     // Direct mapping is not feasible in a straightforward manner due to TypeScript's static typing,
-    // so we use a switch case or if-else logic to manually assign the correct resultType
+    // so we use a switch case or if-else logic to manually assign the correct resultType.
+    // default to string
     let resultType: 'string' | 'number' | 'boolean' | 'array' = 'string';
+
     switch (formType) {
         // all type string
         case 'dropdown':
+            break;
         case 'text':
+            break;
         case 'textarea':
+            break;
         case 'radio':
+            break;
         case 'radioimage':
+            break;
         case 'number':
+            resultType = 'number';
+            break;
         case 'rating':
+            resultType = 'number';
+            break;
         case 'slider':
             resultType = 'number';
             break;

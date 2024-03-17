@@ -35,11 +35,13 @@ function validateFormObject(formObject: any): boolean {
         typeof formObject.label !== 'string' ||
         typeof formObject.name !== 'string' ||
         !validateResultType(formObject.type, formObject.resultType)) {
+        console.log('validateFormObject 1', formObject);
         return false;
     }
     if (formObject.options && !formObject.options.every((option: any) =>
         typeof option.label === 'string' && typeof option.value === 'string' &&
         (option.icon ? typeof option.icon === 'string' : true))) {
+        console.log('validateFormObject 2', formObject);
         return false;
     }
     return true;
