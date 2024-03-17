@@ -30,7 +30,7 @@ export const getEmptyFormConfig = (data: {
         version: VERSION,
         name: data.name,
         description: data.description,
-        startPageId: '',
+        startPageId: firstPageId,
         pages: {
             [firstPageId]: {
                 id: firstPageId,

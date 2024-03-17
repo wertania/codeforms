@@ -187,6 +187,13 @@
                 label="Show on all pages?"
                 v-model="activeConfig.style.showNameAndDescriptionOnEveryPage"
               />
+              <ToggleButton
+                v-model="showConditionalLogic"
+                on-label="Show Page Editor"
+                off-label="Show Conditional Logic"
+                onIcon="fa-solid fa-file"
+                offIcon="fa-solid fa-code"
+              />
             </div>
           </TabPanel>
           <TabPanel header="Pages">
@@ -315,7 +322,10 @@
     </div>
   </Sidebar>
 
-  <div style="height: calc(100vh - 95px); overflow-y: scroll">
+  <div
+    v-if="!showConditionalLogic"
+    style="height: calc(100vh - 95px); overflow-y: scroll"
+  >
     <Card
       class="m-auto sm:w-full md:w-8 mt-5"
       v-if="activeConfig.style.showNameAndDescription"
@@ -361,6 +371,23 @@
       </template>
     </Card>
   </div>
+
+  <div
+    v-if="showConditionalLogic"
+    style="height: calc(100vh - 95px); overflow-y: scroll"
+  >
+    <Card class="m-auto sm:w-full md:w-8 mt-5">
+      <template #title>
+        <h3>Conditional Logic for the Form</h3>
+      </template>
+      <template #content>
+        <ConditionalLogicEditor
+          v-model:start-page="activeConfig.startPageId"
+          :pages="pageSelection"
+        />
+      </template>
+    </Card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -386,6 +413,8 @@ import ItemPreview from '@components/editor/ItemPreview.vue';
 import { FORM_TEMPLATES } from '@/services/templates';
 import { error } from '@/services/toast';
 import { useConfirm } from 'primevue/useconfirm';
+import ConditionalLogicEditor from '@components/editor/ConditionalLogicEditor.vue';
+import { computed } from '@vue/reactivity';
 
 const confirm = useConfirm();
 
@@ -648,4 +677,22 @@ const generateUrl = () => {
   document.execCommand('copy');
   document.body.removeChild(el);
 };
+
+/**
+ * Conditional logic
+ */
+const showConditionalLogic = ref(true);
+const pageSelection = computed(() => {
+  const items: { label: string; value: string }[] = [];
+  for (const page in activeConfig.value.pages) {
+    items.push({
+      label:
+        activeConfig.value.pages[page].name !== ''
+          ? activeConfig.value.pages[page].name
+          : 'Page without name, ' + page,
+      value: page,
+    });
+  }
+  return items;
+});
 </script>
