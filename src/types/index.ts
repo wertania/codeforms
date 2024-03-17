@@ -107,19 +107,22 @@ export type FormResult = {
     value: string[];
 });
 
-type ConditionOperator = '==' | '!=' | '>' | '<' | '>=' | '<=' | 'contains';
-
-export interface NextPageCondition {
-    objectId: string; // ID of the form object the condition applies to
-    operator: ConditionOperator;
-    value: string | number | boolean | string[]; // Value to compare against, based on the form object type
-}
-
 /**
  * Allows for conditional navigation between pages
  * The first matching rule will be used to determine
  * the next page to keep the flow simple here
  */
+export type ConditionOperator = '==' | '!=' | '>' | '<' | '>=' | '<=' | 'contains';
+
+export type PossibleResultType = 'string' | 'number' | 'boolean' | 'array';
+
+export interface NextPageCondition {
+    objectId: string; // ID of the form object the condition applies to
+    operator: ConditionOperator;
+    valueType: PossibleResultType; // Type of the value to compare against
+    value: string | number | boolean | string[]; // Value to compare against, based on the form object type
+}
+
 export interface NavigationRule {
     toPageId: string;
     condition: NextPageCondition; // NextPageCondition to evaluate to move from `fromPageId` to `toPageId`

@@ -383,7 +383,7 @@
       <template #content>
         <ConditionalLogicEditor
           v-model:start-page="activeConfig.startPageId"
-          :pages="pageSelection"
+          :pages="activeConfig.pages"
         />
       </template>
     </Card>
@@ -404,7 +404,7 @@ import FormField from '@components/editor/FormField.vue';
 import FormCheckbox from '@components/editor/FormCheckbox.vue';
 import AddItemChooser from '@components/editor/AddItemChooser.vue';
 
-import { Ref, ref, computed, onBeforeMount } from 'vue';
+import { Ref, ref, onBeforeMount } from 'vue';
 import { FormConfig, FormType, SimpleTemplate } from '@/types/index';
 import { validateFormConfig } from '@/services/validator';
 import { getEmptyFormConfig, getEmptyPageObject } from '@/services/general';
@@ -681,19 +681,6 @@ const generateUrl = () => {
  * Conditional logic
  */
 const showConditionalLogic = ref(true);
-const pageSelection = computed(() => {
-  const items: { label: string; value: string }[] = [];
-  for (const page in activeConfig.value.pages) {
-    items.push({
-      label:
-        activeConfig.value.pages[page].name !== ''
-          ? activeConfig.value.pages[page].name
-          : 'Page without name, ' + page,
-      value: page,
-    });
-  }
-  return items;
-});
 
 /**
  * Prevent the User to reload the page while editing
