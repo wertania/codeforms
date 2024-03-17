@@ -680,15 +680,17 @@ const generateUrl = () => {
 /**
  * Conditional logic
  */
-const showConditionalLogic = ref(true);
+const showConditionalLogic = ref(false);
 
 /**
  * Prevent the User to reload the page while editing
  */
 onBeforeMount(() => {
-  window.addEventListener('beforeunload', (e) => {
-    e.preventDefault();
-    e.returnValue = 'Are you sure you want to leave?';
-  });
+  if (import.meta.env.MODE !== 'development') {
+    window.addEventListener('beforeunload', (e) => {
+      e.preventDefault();
+      e.returnValue = 'Are you sure you want to leave?';
+    });
+  }
 });
 </script>
