@@ -49,6 +49,7 @@
         customUpload
         @uploader="uploadJsonFile($event)"
         mode="basic"
+        :auto="true"
       >
       </FileUpload>
     </div>
