@@ -5,10 +5,6 @@ import ToastService from 'primevue/toastservice';
 import PrimeVue from 'primevue/config';
 import ConfirmationService from 'primevue/confirmationservice';
 
-// store?
-// import { createPinia } from 'pinia';
-// import { useGlobalStore } from './stores/global';
-
 /* PrimeVue components */
 import MultiSelect from 'primevue/multiselect';
 import Button from 'primevue/button';
@@ -36,14 +32,11 @@ import RadioButton from 'primevue/radiobutton';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'primeflex/primeflex.css';
 
-// const pinia = createPinia();
-
-export const app = createApp(App)
-  // .use(pinia)
-  .use(router)
+export const app = createApp(App)  
   .use(PrimeVue)
   .use(ToastService)
-  .use(ConfirmationService);
+  .use(ConfirmationService)
+  .use(router);
 
 app.component('MultiSelect', MultiSelect);
 app.component('Button', Button);
@@ -69,5 +62,3 @@ app.component('Rating', Rating);
 app.component('RadioButton', RadioButton);
 
 app.mount('#app');
-
-// export const globalStore = useGlobalStore();
