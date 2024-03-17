@@ -82,7 +82,8 @@ One demo dataset is included in each installation statically.
 
 So you call this:
 ´´´
-https://my-self-hosted-app.com?url=%2Fdemo%2Fformy.test-config.v1.json
+https://my-self-hosted-app.com?url=%2Fdemo%2Fformy.test-config-1.v1.json
+http://localhost:5173/?url=%2Fdemo%2Fformy.test-config-1.v1.json
 ´´´
 
 ### Get the config from some static storage/webhosting/etc.
