@@ -404,7 +404,7 @@ import FormField from '@components/editor/FormField.vue';
 import FormCheckbox from '@components/editor/FormCheckbox.vue';
 import AddItemChooser from '@components/editor/AddItemChooser.vue';
 
-import { Ref, ref } from 'vue';
+import { Ref, ref, computed, onBeforeMount } from 'vue';
 import { FormConfig, FormType, SimpleTemplate } from '@/types/index';
 import { validateFormConfig } from '@/services/validator';
 import { getEmptyFormConfig, getEmptyPageObject } from '@/services/general';
@@ -414,7 +414,6 @@ import { FORM_TEMPLATES } from '@/services/templates';
 import { error } from '@/services/toast';
 import { useConfirm } from 'primevue/useconfirm';
 import ConditionalLogicEditor from '@components/editor/ConditionalLogicEditor.vue';
-import { computed } from '@vue/reactivity';
 
 const confirm = useConfirm();
 
@@ -694,5 +693,15 @@ const pageSelection = computed(() => {
     });
   }
   return items;
+});
+
+/**
+ * Prevent the User to reload the page while editing
+ */
+onBeforeMount(() => {
+  window.addEventListener('beforeunload', (e) => {
+    e.preventDefault();
+    e.returnValue = 'Are you sure you want to leave?';
+  });
 });
 </script>
