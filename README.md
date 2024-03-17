@@ -113,3 +113,9 @@ I was able to develop Formy because I could use a great Stack of Open Source Sof
 - Style: PrimeVue Aura Theme
 
 Thanks a lot for this stuff!
+
+## Planned Features
+
+- Deploy the App as a free cloud service
+- Evalute the possibilites for an SMTP Gateway
+- Simple Node.JS Webserver to serve app and static configurations (will also take configurations by POST) with Dockerfile
