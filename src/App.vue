@@ -7,3 +7,14 @@
 import { useRoute } from 'vue-router';
 const route = useRoute();
 </script>
+
+<style>
+/**
+make the padding from the Card component smaller on smaller screens
+*/
+@media screen and (max-width: 768px) {
+  .p-card .p-card-body {
+    padding: 0.8rem;
+  }
+}
+</style>

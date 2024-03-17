@@ -156,7 +156,7 @@
 
 <script setup lang="ts">
 import { FormResult, FormPageObject, PageResult } from '@/types/index';
-import { Ref, defineProps, ref, watch } from 'vue';
+import { Ref, ref, watch } from 'vue';
 
 /**
  * Component properties

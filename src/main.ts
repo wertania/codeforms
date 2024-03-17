@@ -32,7 +32,9 @@ import RadioButton from 'primevue/radiobutton';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'primeflex/primeflex.css';
 
-export const app = createApp(App)  
+import 'primevue/resources/themes/aura-light-green/theme.css';
+
+export const app = createApp(App)
   .use(PrimeVue)
   .use(ToastService)
   .use(ConfirmationService)

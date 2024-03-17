@@ -13,7 +13,7 @@
             class="flex-grow-1"
           />
           <i
-            class="fa-solid fa-check text-2xl cursor-pointer ml-2 mt-1"
+            class="fa-solid fa-check text-2xl cursor-pointer ml-2 mt-1 mr-2"
             @click="editMode = false"
           />
         </span>
@@ -211,7 +211,7 @@
 
 <script setup lang="ts">
 import { FormObject } from '@/types';
-import { Ref, defineProps, ref } from 'vue';
+import { Ref, ref } from 'vue';
 import FormField from './FormField.vue';
 import FormFieldTwoCol from './FormFieldTwoCol.vue';
 

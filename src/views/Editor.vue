@@ -6,35 +6,24 @@
     v-model:visible="showNewFormDialog"
     modal
     header="Create New Form/Survey"
-    :style="{ width: '25rem' }"
+    class="md:w-6 h-screen md:h-auto"
   >
     <span class="p-text-secondary block mb-5"
       >Please fill in the needed information. This can be changed later.</span
     >
-    <div class="flex align-items-center gap-3 mb-3">
-      <label for="new-name" class="font-semibold w-6rem"> Header </label>
-      <InputText
-        id="new-name"
-        class="flex-auto"
-        autocomplete="off"
-        v-model="newElement.name"
-      />
-    </div>
-    <div class="flex align-items-center gap-3 mb-5">
-      <label for="new-description" class="font-semibold w-6rem"
-        >Description
-      </label>
-      <InputText
-        id="new-description"
-        class="flex-auto"
-        autocomplete="off"
-        v-model="newElement.description"
-      />
-    </div>
-    <div class="flex align-items-center gap-3 mb-5">
-      <label for="new-description" class="font-semibold w-6rem">
-        Use a template?
-      </label>
+    <FormField
+      label="Header for the Form"
+      v-model="newElement.name"
+      class="mb-5"
+    />
+    <FormField
+      label="Description"
+      v-model="newElement.description"
+      longtext
+      class="mb-5"
+    />
+    <div class="flex flex-column gap-3 mb-5">
+      <label for="new-description"> Use a template? </label>
       <Dropdown
         class="flex-auto"
         v-model="newElement.template"
@@ -83,10 +72,45 @@
     </div>
   </Dialog>
 
+  <!-- Dialog to add a new Form -->
+  <Dialog
+    v-model:visible="showGenerateUrlDialog"
+    modal
+    header="Generate URL to use the Form"
+    class="w-full md:w-6 h-screen md:h-auto"
+  >
+    <span>
+      The URL to your config file.<br />
+      (needs to be public)
+    </span>
+    <FormField label="Your URL (https://...)" v-model="userUrl" class="mt-5" />
+    <div class="mt-5">
+      <span v-if="generatedUrl !== ''">
+        Copied to clipboard:
+        {{ generatedUrl }}
+      </span>
+    </div>
+    <div class="flex justify-content-center mt-5 gap-3">
+      <Button
+        type="button"
+        label="Generate and Copy URL"
+        severity="secondary"
+        @click="generateUrl()"
+        icon="fa-solid fa-copy"
+      />
+      <Button
+        type="button"
+        label="Ok"
+        severity="secondary"
+        @click="showGenerateUrlDialog = false"
+      />
+    </div>
+  </Dialog>
+
   <!-- Main Top-Toolbar -->
   <Toolbar>
     <template #start>
-      <div class="flex align-items-center gap-2">
+      <div class="hidden md:flex md:align-items-center md:gap-2">
         <img src="/logo.webp" alt="logo" style="height: 50px" />
         <div>
           <h2 class="mb-0 mt-0">Formy</h2>
@@ -99,11 +123,20 @@
     <template #end>
       <div class="flex">
         <ToggleButton
+          class="hidden md:block"
           v-model="showHelp"
           onIcon="fa-solid fa-eye"
           offIcon="fa-solid fa-eye-slash"
           on-label="Hide Help"
           off-label="Show Help"
+        />
+        <ToggleButton
+          class="block md:hidden"
+          v-model="showHelp"
+          onIcon="fa-solid fa-question"
+          offIcon="fa-solid fa-question"
+          on-label=""
+          off-label=""
         />
       </div>
       <Button
@@ -127,38 +160,33 @@
     v-model:visible="showGeneralConfig"
     header="General configuration"
     position="right"
-    style="width: 40%"
+    class="sm:w-full md:w-7"
   >
     <div class="flex flex-column h-full">
       <div class="overflow-y-auto">
         <TabView>
           <TabPanel header="General">
-            <InlineMessage severity="info" class="mb-3" v-if="showHelp">
-              The header is the name of the form/survey. The description will be
-              shown below. You can hide this if you want.
-            </InlineMessage>
-            <FormField label="Header (Name)" v-model="activeConfig.name" />
-            <FormField
-              label="Description"
-              v-model="activeConfig.description"
-              longtext
-            />
-            <FormCheckbox
-              label="Show global name and description?"
-              v-model="activeConfig.style.showNameAndDescription"
-            />
-            <FormCheckbox
-              v-if="activeConfig.style.showNameAndDescription"
-              label="Show on all pages?"
-              v-model="activeConfig.style.showNameAndDescriptionOnEveryPage"
-            />
-            <InlineMessage severity="info" class="mb-3" v-if="showHelp">
-              The target URL is the URL where the form data will be sent to.
-            </InlineMessage>
-            <FormField
-              label="Target-URL (for the POST)"
-              v-model="activeConfig.target.url"
-            />
+            <div class="flex flex-column gap-3">
+              <InlineMessage severity="info" class="mb-3" v-if="showHelp">
+                The header is the name of the form/survey. The description will
+                be shown below. You can hide this if you want.
+              </InlineMessage>
+              <FormField label="Header (Name)" v-model="activeConfig.name" />
+              <FormField
+                label="Description"
+                v-model="activeConfig.description"
+                longtext
+              />
+              <FormCheckbox
+                label="Show global name and description?"
+                v-model="activeConfig.style.showNameAndDescription"
+              />
+              <FormCheckbox
+                v-if="activeConfig.style.showNameAndDescription"
+                label="Show on all pages?"
+                v-model="activeConfig.style.showNameAndDescriptionOnEveryPage"
+              />
+            </div>
           </TabPanel>
           <TabPanel header="Pages">
             <InlineMessage severity="info" class="mb-3" v-if="showHelp">
@@ -231,10 +259,22 @@
                 URL. This URL will be set in the "url" parameter to use this
                 form on your website.
               </InlineMessage>
+              <FormField
+                label="Target-URL (for the POST)"
+                v-model="activeConfig.target.url"
+              />
               <Button
                 label="Download Config"
                 icon="fa-solid fa-download"
                 @click="downloadJsonFile()"
+              />
+              <Button
+                label="Generate URL for Form"
+                icon="fa-solid fa-copy"
+                @click="
+                  generatedUrl = '';
+                  showGenerateUrlDialog = true;
+                "
               />
             </div>
           </TabPanel>
@@ -252,7 +292,7 @@
     v-model:visible="showAddItemSidebar"
     header="Add new Input Element"
     position="left"
-    style="width: 40%"
+    class="sm:w-full md:w-7"
   >
     <div class="flex flex-column h-full">
       <div class="overflow-y-auto">
@@ -276,7 +316,7 @@
 
   <div style="height: calc(100vh - 95px); overflow-y: scroll">
     <Card
-      class="m-auto w-8 mt-5"
+      class="m-auto sm:w-full md:w-8 mt-5"
       v-if="activeConfig.style.showNameAndDescription"
     >
       <template #title>
@@ -287,7 +327,10 @@
       </template>
     </Card>
 
-    <Card v-if="activeConfig.pages[activePage]" class="m-auto w-8 mt-5">
+    <Card
+      v-if="activeConfig.pages[activePage]"
+      class="m-auto sm:w-full md:w-8 mt-5"
+    >
       <template #title>
         {{ activeConfig.pages[activePage].name }}
       </template>
@@ -297,7 +340,7 @@
       <template #content>
         <Button
           v-if="activeConfig.pages[activePage].form.length === 0"
-          style="left: 10px; top: 10px"
+          style="left: 10px; top: 0px"
           @click="
             showAddItemSidebar = true;
             indexToAddObject = -1;
@@ -351,11 +394,17 @@ const confirm = useConfirm();
 const showHelp = ref(false);
 const showNewFormDialog = ref(false);
 const newElement = ref({
-  name: 'Hey, welcome to your Form!',
-  description: 'Please help us with the following questions. Thank you!',
+  name: '',
+  description: '',
   template: null as SimpleTemplate | null,
 });
-const activeConfig: Ref<FormConfig> = ref(getEmptyFormConfig(newElement.value));
+const activeConfig: Ref<FormConfig> = ref(
+  getEmptyFormConfig({
+    name: 'Hey, welcome to your Form!',
+    description: 'Please help us with the following questions. Thank you!',
+    template: null,
+  }),
+);
 const activePage: Ref<string> = ref(
   activeConfig.value.pages[Object.keys(activeConfig.value.pages)[0]].id,
 );
@@ -379,7 +428,7 @@ const possibleItems = [
   {
     label: 'Dropdown (one Choice)',
     type: 'dropdown',
-    icon: 'fa-solid fa-caret-down',
+    icon: 'fa-solid fa-list',
   },
   {
     label: 'Text',
@@ -575,5 +624,27 @@ const downloadJsonFile = () => {
   a.download = activeConfig.value.name + '.json';
   a.click();
   window.URL.revokeObjectURL(url);
+};
+
+/**
+ * Generate a URL for the form.
+ * This will create URL from the actual base URL + the given url from input
+ */
+const showGenerateUrlDialog = ref(false);
+const userUrl = ref('');
+const generatedUrl = ref('');
+const generateUrl = () => {
+  showGenerateUrlDialog.value = false;
+  generatedUrl.value = `${window.location.href.replace(
+    '/#/editor',
+    '',
+  )}?url=${encodeURIComponent(userUrl.value)}`;
+  // copy to clipboard
+  const el = document.createElement('textarea');
+  el.value = generatedUrl.value;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
 };
 </script>

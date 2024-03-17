@@ -1,8 +1,5 @@
 <template>
-  <div class="field">
-    <label :for="label">
-      {{ label }}
-    </label>
+  <FloatLabel class="mt-4 mb-1">
     <InputText
       v-if="!longtext"
       :id="label"
@@ -11,11 +8,15 @@
       v-model="value"
     />
     <Textarea v-else :id="label" class="w-full" v-model="value" />
-  </div>
+    <label :for="label">
+      {{ label }}
+    </label>
+  </FloatLabel>
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, watch } from 'vue';
+import FloatLabel from 'primevue/floatlabel';
+import { ref, watch } from 'vue';
 const props = defineProps({
   label: String,
   modelValue: String,
