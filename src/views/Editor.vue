@@ -8,69 +8,95 @@
     header="Create New Form/Survey"
     class="md:w-6 h-screen md:h-auto"
   >
-    <span class="p-text-secondary block mb-5"
-      >Please fill in the needed information. This can be changed later.</span
-    >
-    <FormField
-      label="Header for the Form"
-      v-model="newElement.name"
-      class="mb-5"
+    <Button
+      v-if="aiServicesAvailable && !aiPromptVisible"
+      class="mb-5 w-full"
+      label="Use AI to generate a form"
+      icon="fa-solid fa-robot"
+      @click="aiPromptVisible = true"
     />
-    <FormField
-      label="Description"
-      v-model="newElement.description"
-      longtext
-      class="mb-5"
-    />
-    <div class="flex flex-column gap-3 mb-5">
-      <label for="new-description"> Use a template? </label>
-      <Dropdown
-        class="flex-auto"
-        v-model="newElement.template"
-        :options="FORM_TEMPLATES"
-        option-label="templateName"
-        @change="
-          newElement.template
-            ? (newElement.name = newElement.template.templateName)
-            : null;
-          newElement.template
-            ? (newElement.description = newElement.template.description)
-            : null;
-        "
+    <template v-if="aiPromptVisible">
+      <FormField
+        label="What would you like to do? (Aks the AI)"
+        v-model="usersPrompt"
+        longtext
+        :disabled="loading"
       />
-    </div>
-    <div class="flex flex-column">
-      <label for="new-description" class="font-semibold">
-        Upload existing config file (.json)
-      </label>
-      <FileUpload
-        class="w-full mt-2"
-        accept=".json"
-        customUpload
-        @uploader="uploadJsonFile($event)"
-        mode="basic"
-        :auto="true"
+      <div class="flex justify-content-end mt-2">
+        <Button
+          :disabled="usersPrompt.length < 10 || loading"
+          label="Generate Form"
+          icon="fa-solid fa-robot"
+          @click="getAIForm()"
+        />
+      </div>
+    </template>
+    <template v-else>
+      <span class="p-text-secondary block mb-5"
+        >Please fill in the needed information. This can be changed later.</span
       >
-      </FileUpload>
-    </div>
-    <div class="flex justify-content-end gap-2 mt-5">
-      <Button
-        type="button"
-        label="Cancel"
-        severity="secondary"
-        @click="showNewFormDialog = false"
-      ></Button>
-      <Button
-        type="button"
-        label="Start Editing"
-        @click="
-          activeConfig = getEmptyFormConfig(newElement);
-          activePage = Object.keys(activeConfig.pages)[0];
-          showNewFormDialog = false;
-          reset();
-        "
-      ></Button>
-    </div>
+      <FormField
+        label="Header for the Form"
+        v-model="newElement.name"
+        class="mb-5"
+      />
+      <FormField
+        label="Description"
+        v-model="newElement.description"
+        longtext
+        class="mb-5"
+      />
+      <div class="flex flex-column gap-3 mb-5">
+        <label for="new-description"> Use a template? </label>
+        <Dropdown
+          class="flex-auto"
+          v-model="newElement.template"
+          :options="FORM_TEMPLATES"
+          option-label="templateName"
+          @change="
+            newElement.template
+              ? (newElement.name = newElement.template.templateName)
+              : null;
+            newElement.template
+              ? (newElement.description = newElement.template.description)
+              : null;
+          "
+        />
+      </div>
+      <div class="flex flex-column">
+        <label for="new-description" class="font-semibold">
+          Upload existing config file (.json)
+        </label>
+        <FileUpload
+          class="w-full mt-2"
+          accept=".json"
+          customUpload
+          @uploader="uploadJsonFile($event)"
+          mode="basic"
+          :auto="true"
+        >
+        </FileUpload>
+      </div>
+
+      <div class="flex justify-content-end gap-2 mt-5">
+        <Button
+          type="button"
+          label="Cancel"
+          severity="secondary"
+          @click="showNewFormDialog = false"
+        ></Button>
+        <Button
+          type="button"
+          label="Start Editing"
+          @click="
+            activeConfig = getEmptyFormConfig(newElement);
+            activePage = Object.keys(activeConfig.pages)[0];
+            showNewFormDialog = false;
+            reset();
+          "
+        ></Button>
+      </div>
+    </template>
   </Dialog>
 
   <!-- Dialog to add a new Form -->
@@ -143,7 +169,10 @@
       <Button
         icon="fa-solid fa-plus"
         class="ml-2"
-        @click="showNewFormDialog = true"
+        @click="
+          showNewFormDialog = true;
+          aiPromptVisible = false;
+        "
         label="New Form"
       />
       <Button
@@ -414,6 +443,7 @@ import { FORM_TEMPLATES } from '@/services/templates';
 import { error } from '@/services/toast';
 import { useConfirm } from 'primevue/useconfirm';
 import ConditionalLogicEditor from '@components/editor/ConditionalLogicEditor.vue';
+import { aiIsAvailable, getAiDrivenFormConfig } from '@/services/aiservice';
 
 const confirm = useConfirm();
 
@@ -693,4 +723,24 @@ onBeforeMount(() => {
     });
   }
 });
+
+/**
+ * AI services
+ */
+const aiServicesAvailable = ref(aiIsAvailable());
+const aiPromptVisible = ref(false);
+const usersPrompt = ref('');
+const loading = ref(false);
+const getAIForm = async () => {
+  loading.value = true;
+  const form = await getAiDrivenFormConfig(usersPrompt.value);
+  console.log(form);
+
+  if (Object.keys(activeConfig.value.pages).length === 0) return;
+  activeConfig.value = form;
+  activePage.value = Object.keys(activeConfig.value.pages)[0];
+
+  loading.value = false;
+  showNewFormDialog.value = false;
+};
 </script>
