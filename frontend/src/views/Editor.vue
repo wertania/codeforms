@@ -463,7 +463,7 @@ import FormField from '@components/editor/FormField.vue';
 import FormCheckbox from '@components/editor/FormCheckbox.vue';
 import AddItemChooser from '@components/editor/AddItemChooser.vue';
 
-import { Ref, ref, onBeforeMount } from 'vue';
+import { Ref, ref, onBeforeMount, onMounted } from 'vue';
 import { FormConfig, FormType, SimpleTemplate } from '@/types/index';
 import { validateFormConfig } from '@/services/validator';
 import { getEmptyFormConfig, getEmptyPageObject } from '@/services/general';
@@ -810,7 +810,7 @@ onBeforeMount(() => {
 /**
  * AI services
  */
-const aiServicesAvailable = ref(aiIsAvailable());
+const aiServicesAvailable = ref(false);
 const aiPromptVisible = ref(false);
 const usersPrompt = ref('');
 const loading = ref(false);
@@ -826,4 +826,12 @@ const getAIForm = async () => {
   loading.value = false;
   showNewFormDialog.value = false;
 };
+
+const checkAiServices = async () => {
+  aiServicesAvailable.value = await aiIsAvailable();
+};
+
+onMounted(() => {
+  checkAiServices();
+});
 </script>

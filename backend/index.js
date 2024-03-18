@@ -5,6 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs').promises;
 const path = require('path');
 const { validateFormConfig } = require('./validator');
+const { aiIsAvailable, getAiDrivenFormConfig } = require('./openai');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +34,26 @@ app.use(cors({
 
 // Middleware
 app.use(express.json());
+
+// GET endpoint to check if AI is available
+app.get('/ai', (req, res) => {
+    res.json({ aiService: aiIsAvailable() });
+});
+
+// POST endpoint to get an AI-driven form config
+app.post('/ai', async (req, res) => {
+    try {
+        if (!aiIsAvailable()) {
+            res.status(500).send('The AI service is not available.');
+            return;
+        }
+
+        const formConfig = await getAiDrivenFormConfig(req.body.usersPrompt);
+        res.json({ formConfig });
+    } catch (error) {
+        res.status(500).send('Error getting the AI-driven form config. ' + error);
+    }
+});
 
 // POST endpoint /config
 app.post('/config', async (req, res) => {

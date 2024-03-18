@@ -20,3 +20,4 @@ backend/node_modules
 frontend/.env
 backend/.env
 backend/configs/*.json
+backend/.env.tmp
