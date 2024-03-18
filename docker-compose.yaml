@@ -21,5 +21,6 @@ services:
       dockerfile: Dockerfile
       args:
         - VITE_OPENAI_API_KEY=${VITE_OPENAI_API_KEY}
+        - VITE_BACKEND_URL=${BASE_URL}
     ports:
       - "${FRONTEND_PORT}:80"
