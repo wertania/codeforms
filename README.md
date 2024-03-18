@@ -41,8 +41,12 @@ If you want to deploy it on your own. Follow these steps:
 
 ```
 git clone https://github.org/wertania/CodeForms.git
-docker build -t CodeForms-local .
-docker run -p 8080:80 CodeForms-local
+```
+
+Then create and edit .env file.
+
+```
+docker-compose up
 ```
 
 ## Use locally inside your companies network?
