@@ -8,21 +8,6 @@ But what if you have a project where you are searching for a really free solutio
 
 Here we are! Formy.
 
-## Beta
-
-Formy is in beta at the moment but working.
-Documentation and Editor are in Work.
-
-## So easy to use, FREE for commercial and personal use
-
-You can use Formy with own hosting and without the need to have your own server.
-The only thing you need is a webhosting (or some other public web storagy) where you can put the Form configuration files.
-
-Each Form/Survey will be a simple and static JSON file. You can put it anywhere in the web.
-Then you can use our App Formy.com?url=<put-your-json-url-here> and that´s it!
-
-Self hosting is also no problem if you want to deploy the frontend on your own server.
-
 ## Open-Source Form Builder and Survey Builder
 
 With Formy you can create Forms and Survey with multiple pages. You have a long list of possible inputs.
@@ -31,25 +16,36 @@ Also you will be able to define simple or complex conditions between the pages.
 So with Formy you will have almost all necessary features like other Tools (JotForm, Airtable, Fillout, Tally, Feathery and Co.).
 But Formy is really free and Open-Source.
 
-## Depoly self-hosted with Docker
+## FREE for commercial and personal use
 
-´´´
-git clone xxx
-docker build -t formy-local .
-docker run -p 8080:80 formy-local
-´´´
+You can use Formy with own hosting. The only thing you need is a webhosting (or some other public web storage) where you can put the Form configuration files and deploy the static web app.
 
-## Read privacy for your users
+Each Form/Survey will be a simple and static JSON file. You can put it anywhere in the web.
+Then you can use our App Formy.com?url=>>put-your-json-url-here<< and that´s it!
+
+Full Self hosting is also no problem if you want to deploy the frontend on your own server. Simply use the docker container.
+
+## Real privacy for your users
 
 You want to be sure to don´t have trouble GDPR/DSGVO(Europe)?
 Since Formy is a Single-Page-App without Backend the user will never send any data to us or someone else.
 Only the action that you define will be fired directly from the User´s browser.
 
-Great, isn´t it?
+Great, isn´t it.
+
+## Depoly self-hosted with Docker
+
+If you want to deploy it on your own. Follow these steps:
+
+´´´
+git clone https://github.com/wertania/formy.git
+docker build -t formy-local .
+docker run -p 8080:80 formy-local
+´´´
 
 ## Use locally inside your companies network?
 
-Yes! You can do that. If you deploy your config JSON locally in your domain Formy.com will also work.
+Yes! You can do that. If you deploy your config files locally in your domain Formy.com will also work with that-
 The only things you need to take care about is that the server for the config have CORS allowed for Formy.com.
 
 ## Trigger and submit data
@@ -69,7 +65,7 @@ So you are able to use a lot tools which are able to recieve POST-Webhooks like:
 
 ### Test with demo dataset
 
-One demo dataset is included in each installation statically.
+A demo dataset is included in each installation statically.
 
 ´´´
 // plain
@@ -82,7 +78,8 @@ One demo dataset is included in each installation statically.
 
 So you call this:
 ´´´
-https://my-self-hosted-app.com?url=%2Fdemo%2Fformy.test-config-1.v1.json
+https://formy.com?url=%2Fdemo%2Fformy.test-config-1.v1.json
+// or
 http://localhost:5173/?url=%2Fdemo%2Fformy.test-config-1.v1.json
 ´´´
 
