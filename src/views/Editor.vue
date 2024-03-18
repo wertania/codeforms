@@ -140,7 +140,7 @@
       <div class="hidden md:flex md:align-items-center md:gap-2">
         <img src="/logo.webp" alt="logo" style="height: 50px" />
         <div>
-          <h2 class="mb-0 mt-0">Formy</h2>
+          <h2 class="mb-0 mt-0">CodeForms</h2>
           <span class="p-text-secondary">
             The free and Open-Source Form Editor
           </span>

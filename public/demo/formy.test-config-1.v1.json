@@ -1,8 +1,8 @@
 {
   "id": "34e82ce4-92ea-49eb-9ca7-0260a0845155",
   "version": 1,
-  "name": "Formy Demo",
-  "description": "Hey There! I´m Formy. Your personal form builder demo",
+  "name": "CodeForms Demo",
+  "description": "Hey There! I´m CodeForms. Your personal form builder demo",
   "startPageId": "f57813f3-01b0-42c3-88e6-640824620843",
   "pages": {
     "f57813f3-01b0-42c3-88e6-640824620843": {
@@ -24,7 +24,7 @@
           "condition": {
             "objectId": "7f877c68-f20d-486c-a5e6-8a6be7e34291",
             "operator": "==",
-            "value": "Formy"
+            "value": "CodeForms"
           }
         }
       ],
