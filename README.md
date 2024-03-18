@@ -113,6 +113,7 @@ Thanks a lot for this stuff!
 
 ## Planned Features
 
+- Own images to the radio inpur
 - Deploy the App as a free cloud service
 - Evalute the possibilites for an SMTP Gateway
 - Simple Node.JS Webserver to serve app and static configurations (will also take configurations by POST) with Dockerfile
