@@ -21,3 +21,4 @@ frontend/.env
 backend/.env
 backend/configs/*.json
 backend/.env.tmp
+frontend/.env.tmp
