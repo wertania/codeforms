@@ -1,0 +1,25 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - BASE_URL=${BASE_URL}
+        - PORT=${PORT}
+        - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      - PORT=${PORT}
+      - BASE_URL=${BASE_URL}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_OPENAI_API_KEY=${VITE_OPENAI_API_KEY}
+    ports:
+      - "${FRONTEND_PORT}:80"
