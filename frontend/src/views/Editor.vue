@@ -63,6 +63,21 @@
           "
         />
       </div>
+      <div class="flex flex-column gap-1 mb-5">
+        <label> Load a existing Config from URL </label>
+        <InputText
+          placeholder="Load from URL"
+          v-model="loadFromUrl"
+          class="flex-auto"
+        />
+        <Button
+          :disabled="loadFromUrl === ''"
+          type="button"
+          label="Load"
+          icon="fa-solid fa-cloud"
+          @click="loadConfigFromUrl()"
+        />
+      </div>
       <div class="flex flex-column">
         <label for="new-description" class="font-semibold">
           Upload existing config file (.json)
@@ -288,7 +303,7 @@
               </div>
             </div>
           </TabPanel>
-          <TabPanel header="Export/Download">
+          <TabPanel header="Deploy your Form">
             <div class="flex flex-column gap-3">
               <InlineMessage severity="info" class="mb-3" v-if="showHelp">
                 You can download the actual configuration as a JSON file. You
@@ -299,6 +314,20 @@
               <FormField
                 label="Target-URL (for the POST)"
                 v-model="activeConfig.target.url"
+              />
+              <Chip
+                v-if="generatedUrl !== ''"
+                @click="generateUrl()"
+                class="cursor-pointer"
+              >
+                URL to use the form on your website (click to copy):<br />
+                {{ generatedUrl }}
+              </Chip>
+              <Button
+                v-if="backendUrl !== ''"
+                label="Save and deploy your Config"
+                icon="fa-solid fa-save"
+                @click="saveInCloud()"
               />
               <Button
                 label="Download Config"
@@ -428,6 +457,7 @@ import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import FileUpload from 'primevue/fileupload';
 import ConfirmPopup from 'primevue/confirmpopup';
+import Chip from 'primevue/chip';
 
 import FormField from '@components/editor/FormField.vue';
 import FormCheckbox from '@components/editor/FormCheckbox.vue';
@@ -440,7 +470,7 @@ import { getEmptyFormConfig, getEmptyPageObject } from '@/services/general';
 import { getEmptyFormObject } from '@/services/general';
 import ItemPreview from '@components/editor/ItemPreview.vue';
 import { FORM_TEMPLATES } from '@/services/templates';
-import { error } from '@/services/toast';
+import { error, info } from '@/services/toast';
 import { useConfirm } from 'primevue/useconfirm';
 import ConditionalLogicEditor from '@components/editor/ConditionalLogicEditor.vue';
 import { aiIsAvailable, getAiDrivenFormConfig } from '@/services/aiservice';
@@ -705,6 +735,59 @@ const generateUrl = () => {
   el.select();
   document.execCommand('copy');
   document.body.removeChild(el);
+
+  return generatedUrl.value;
+};
+
+/**
+ * Load a config from a given URL
+ */
+const loadFromUrl = ref('');
+const loadConfigFromUrl = async () => {
+  loading.value = true;
+
+  try {
+    const res = await fetch(loadFromUrl.value);
+    const json = await res.json();
+    validateFormConfig(json);
+    activeConfig.value = json;
+    if (Object.keys(activeConfig.value.pages).length === 0) return;
+    activePage.value = Object.keys(activeConfig.value.pages)[0];
+    showNewFormDialog.value = false;
+  } catch (e) {
+    console.error(e);
+    error('Error while loading the form from the given URL');
+  }
+
+  loading.value = false;
+  loadFromUrl.value = '';
+};
+
+/**
+ * Save the actual form config in the cloud
+ */
+const backendUrl = import.meta.env.VITE_BACKEND_URL ?? '';
+const saveInCloud = async () => {
+  try {
+    const res = await fetch(`${backendUrl}/config`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(activeConfig.value),
+    });
+    const resJson = await res.json();
+    userUrl.value = resJson.url;
+    const url = generateUrl();
+    info(
+      'Form saved in the cloud. URL was copied to clipboard. ' + url,
+      'Success',
+      5000,
+    );
+  } catch (e) {
+    console.error(e);
+    error('Error while saving the form in the cloud.');
+  }
 };
 
 /**
