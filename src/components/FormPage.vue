@@ -1,5 +1,5 @@
 <template>
-  <Card class="m-auto w-8 mt-5">
+  <Card class="m-auto w-full md:w-8 mt-5">
     <template #title v-if="page.title">
       {{ page.title }}
     </template>

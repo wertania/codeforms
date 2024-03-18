@@ -1,7 +1,7 @@
 <template>
   <template v-if="activeForm">
     <Card
-      class="m-auto w-8 mt-5"
+      class="m-auto w-full md:w-8 mt-5"
       v-if="activeForm.style.showNameAndDescription"
     >
       <template #title>
@@ -20,13 +20,13 @@
     >
       <template #navigation>
         <div class="flex justify-content-around flex-wrap">
-          <Button
+          <!-- <Button
             v-if="activePage !== activeForm.startPageId"
             @click="false"
             :label="activeForm.style.previousButtonLabel ?? 'Previous'"
             :disabled="true"
             class="w-3"
-          />
+          /> -->
           <Button
             v-if="nextValidPage.id"
             @click="gotoPage(nextValidPage.id)"
