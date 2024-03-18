@@ -13,8 +13,6 @@ dist-ssr
 *.local
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
 .idea
 .DS_Store
 *.suo
@@ -23,22 +21,10 @@ dist-ssr
 *.sln
 *.sw?
 
-viewer/.vitepress/dist
-viewer/.vitepress/cache
+node_modules
+frontend/node_modules
+backend/node_modules
 
 .env
-.env.vitepress
-
-# Blob storage
-__blobstorage__/
-__azurite_*
-
-debug.baseLangList.json
-debug.fullTree.json
-debug.navigation.json
-debug.paths.json
-viewer/assets/
-!viewer/assets/placeholder
-.dev/pb_data/**/*
-.dev/pb_public/**/*
-viewer/[path].paths.ts.*.mjs
+frontend/.env
+backend/.env
