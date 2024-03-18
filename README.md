@@ -37,11 +37,11 @@ Great, isn´t it.
 
 If you want to deploy it on your own. Follow these steps:
 
-´´´
+```
 git clone https://github.org/wertania/CodeForms.git
 docker build -t CodeForms-local .
 docker run -p 8080:80 CodeForms-local
-´´´
+```
 
 ## Use locally inside your companies network?
 
@@ -67,21 +67,21 @@ So you are able to use a lot tools which are able to recieve POST-Webhooks like:
 
 A demo dataset is included in each installation statically.
 
-´´´
+```
 // plain
 /demo/CodeForms.test-config-1.v1.json
 /demo/CodeForms.test-config-2.v1.json
 // encoded
 %2Fdemo%2FCodeForms.test-config-1.v1.json
 %2Fdemo%2FCodeForms.test-config-2.v1.json
-´´´
+```
 
 So you call this:
-´´´
+```
 https://CodeForms.org?url=%2Fdemo%2FCodeForms.test-config-1.v1.json
 // or
 http://localhost:5173/?url=%2Fdemo%2FCodeForms.test-config-1.v1.json
-´´´
+```
 
 ### Get the config from some static storage/webhosting/etc.
 
@@ -95,11 +95,11 @@ That will not work with this app.
 If you use this tool dynamically. Then it is important that the URL parameter "url" is encoded.
 This can be done by JavaScript like this.
 
-´´´
+```
 const configUrl = 'https://my-self-hosted-server/some/path/CodeForms.test-config.v1.json'
 const encodedParameter = encodeURIComponent(configUrl);
 const formUrl = `https://CodeForms.io?url=${encodedParameter}`;
-´´´
+```
 
 ## Build on the top of a great Open-Source Stack
 
