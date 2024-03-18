@@ -62,6 +62,9 @@ import {
 } from '@/types/index';
 import { error } from '@/services/toast';
 import { validateFormConfig } from '@/services/validator';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 // Inner Form State
 const activeForm = ref<FormConfig>();
@@ -85,7 +88,7 @@ const parseUrlParmeter = (): {
     const [key, value] = param.split('=');
     if (key === 'url') url = decodeURIComponent(value).replace(/#.*$/, '');
   }
-  console.debug('url', url);
+  console.debug('config url', url);
   return { url: url ?? '' };
 };
 
@@ -98,19 +101,20 @@ const getConfigFromExternal = async (url: string): Promise<FormConfig> => {
     if (!response.ok) throw new Error(response.status + ' ' + response.body);
     return validateFormConfig((await response.json()) as FormConfig);
   } catch (e) {
+    console.error('Error: ' + e);
     throw new Error('Error: ' + e);
   }
 };
 
 const init = async () => {
   const { url } = parseUrlParmeter();
-  console.debug('get config', url);
   if (url === '') {
-    error('No valid url found');
+    console.debug('Error: No url parameter found. Forward to Editor.');
+    router.push({ name: 'editor' });
     return;
   }
   activeForm.value = await getConfigFromExternal(url);
-  console.debug(JSON.stringify(activeForm.value, null, 2));
+  // console.debug(JSON.stringify(activeForm.value, null, 2));
   activePage.value = activeForm.value.startPageId;
   valueStore.value = {
     [activePage.value]: {
@@ -120,6 +124,7 @@ const init = async () => {
     },
   };
 };
+
 // Change the active page
 const gotoPage = (pageId: string) => {
   activePage.value = pageId;
