@@ -117,3 +117,7 @@ Thanks a lot for this stuff!
 - Deploy the App as a free cloud service
 - Evalute the possibilites for an SMTP Gateway
 - Simple Node.JS Webserver to serve app and static configurations (will also take configurations by POST) with Dockerfile
+
+## Ideas and contact
+
+If you need professional support you can contact me.
