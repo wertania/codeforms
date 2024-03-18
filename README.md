@@ -8,6 +8,8 @@ But what if you have a project where you are searching for a really free solutio
 
 Here we are! CodeForms.
 
+![CodeForms](assets/Logo/codeforms_small.webp)
+
 ## Open-Source Form Builder and Survey Builder
 
 With CodeForms you can create Forms and Survey with multiple pages. You have a long list of possible inputs.
