@@ -76,7 +76,16 @@ const valueStore = ref<{ [pageId: string]: PageResult }>({});
 const parseUrlParmeter = (): {
   url: string;
 } => {
-  const url = new URLSearchParams(window.location.search).get('url');
+  const fullUrl = new URL(window.location.href).toString();
+  // parse the url parameter manually since the hash routing makes it hard to use the URLSearchParams
+  const paramString = fullUrl.split('?');
+  const params = paramString.length > 1 ? paramString[1].split('&') : [];
+  let url: string | null = null;
+  for (let param of params) {
+    const [key, value] = param.split('=');
+    if (key === 'url') url = decodeURIComponent(value).replace(/#.*$/, '');
+  }
+  console.debug('url', url);
   return { url: url ?? '' };
 };
 

@@ -54,6 +54,7 @@ You need to define a URL that will be able to recieve a POST from the User´s br
 That means at the end of the Survey CodeForms will make an POST from the Browser with all data inside.
 
 So you are able to use a lot tools which are able to recieve POST-Webhooks like:
+
 - make.org
 - n8n
 - zapier
@@ -77,10 +78,11 @@ A demo dataset is included in each installation statically.
 ```
 
 So you call this:
+
 ```
-https://CodeForms.org?url=%2Fdemo%2FCodeForms.test-config-1.v1.json
+https://CodeForms.org?url=%2Fdemo%2Fcodeforms.test-config-1.v1.json
 // or
-http://localhost:5173/?url=%2Fdemo%2FCodeForms.test-config-1.v1.json
+http://localhost:5173/?url=%2Fdemo%2Fcodeforms.test-config-1.v1.json
 ```
 
 ### Get the config from some static storage/webhosting/etc.
@@ -113,7 +115,8 @@ Thanks a lot for this stuff!
 
 ## Planned Features
 
-- Own images to the radio inpur
+- Captcha implementation
+- Add own images to the radio input
 - Deploy the App as a free cloud service
 - Evalute the possibilites for an SMTP Gateway
 - Simple Node.JS Webserver to serve app and static configurations (will also take configurations by POST) with Dockerfile
