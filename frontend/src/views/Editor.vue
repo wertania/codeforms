@@ -786,7 +786,7 @@ const saveInCloud = async () => {
     );
   } catch (e) {
     console.error(e);
-    error('Error while saving the form in the cloud.');
+    error('Error while saving the form in the cloud. ' + e);
   }
 };
 
