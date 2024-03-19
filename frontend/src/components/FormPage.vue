@@ -21,6 +21,8 @@
           | 'radioimage'
           | 'rating'
           | 'slider'
+          | 'date'
+          | 'time'
         -->
       <template v-for="object in page.form">
         <Card class="border-round-sm mb-2">
@@ -143,6 +145,33 @@
               v-model="<any>innerPageValue.inputs[object.id].value"
               class="w-full"
               autocomplete="off"
+            />
+            <Calendar
+              v-if="object.type === 'date'"
+              :key="object.id"
+              :label="object.label"
+              v-model="<any>innerPageValue.inputs[object.id].value"
+              class="w-full"
+              autocomplete="off"
+            />
+            <Calendar
+              v-if="object.type === 'time'"
+              :key="object.id"
+              :label="object.label"
+              v-model="<any>innerPageValue.inputs[object.id].value"
+              class="w-full"
+              autocomplete="off"
+              timeOnly
+            />
+            <Calendar
+              v-if="object.type === 'datetime'"
+              :key="object.id"
+              :label="object.label"
+              v-model="<any>innerPageValue.inputs[object.id].value"
+              class="w-full"
+              autocomplete="off"
+              showTime
+              hourFormat="24"
             />
           </template>
         </Card>

@@ -12,7 +12,10 @@ export type FormType =
     | 'radio'
     | 'radioimage'
     | 'rating'
-    | 'slider';
+    | 'slider'
+    | 'date'
+    | 'time'
+    | 'datetime';
 
 export interface FormResultTypeMap {
     dropdown: 'string';
@@ -28,6 +31,9 @@ export interface FormResultTypeMap {
     radioimage: 'string';
     rating: 'number';
     slider: 'number';
+    date: 'string';
+    time: 'string';
+    datetime: 'string';
 }
 
 export interface FormObject {

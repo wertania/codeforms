@@ -62,6 +62,9 @@ function validateResultType(formType: FormType, resultType: any): boolean {
         radioimage: 'string',
         rating: 'number',
         slider: 'number',
+        date: 'string',
+        time: 'string',
+        datetime: 'string',
     };
     return formResultTypeMap[formType] === resultType;
 }

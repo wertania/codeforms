@@ -145,6 +145,36 @@
           class="w-full"
           :disabled="true"
         />
+        <Calendar
+          v-if="object.type === 'date'"
+          :key="object.id"
+          :label="object.label"
+          v-model="<any>dummyValues[object.id]"
+          class="w-full"
+          autocomplete="off"
+          :disabled="true"
+        />
+        <Calendar
+          v-if="object.type === 'time'"
+          :key="object.id"
+          :label="object.label"
+          v-model="<any>dummyValues[object.id]"
+          class="w-full"
+          autocomplete="off"
+          timeOnly
+          :disabled="true"
+        />
+        <Calendar
+          v-if="object.type === 'datetime'"
+          :key="object.id"
+          :label="object.label"
+          v-model="<any>dummyValues[object.id]"
+          class="w-full"
+          autocomplete="off"
+          showTime
+          hourFormat="24"
+          :disabled="true"
+        />
       </template>
 
       <!-- Edit options if it has some -->

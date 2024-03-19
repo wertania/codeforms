@@ -87,6 +87,12 @@ export function getEmptyFormObject(formType: FormType): FormObject {
             break;
         case 'radioimage':
             break;
+        case 'date':
+            break;
+        case 'time':
+            break;
+        case 'datetime':
+            break;
         case 'number':
             resultType = 'number';
             break;

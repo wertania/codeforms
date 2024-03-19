@@ -324,12 +324,14 @@
                 {{ generatedUrl }}
               </Chip>
               <Button
+                :disabled="activeConfig.target.url === ''"
                 v-if="backendUrl !== ''"
                 label="Save and deploy your Config"
                 icon="fa-solid fa-save"
                 @click="saveInCloud()"
               />
               <Button
+                :disabled="activeConfig.target.url === ''"
                 label="Download Config"
                 icon="fa-solid fa-download"
                 @click="downloadJsonFile()"
@@ -578,6 +580,21 @@ const possibleItems = [
     label: 'Slider',
     type: 'slider',
     icon: 'fa-solid fa-sliders',
+  },
+  {
+    label: 'Date',
+    type: 'date',
+    icon: 'fa-solid fa-calendar',
+  },
+  {
+    label: 'Time',
+    type: 'time',
+    icon: 'fa-solid fa-clock',
+  },
+  {
+    label: 'Date & Time',
+    type: 'datetime',
+    icon: 'fa-solid fa-calendar-days',
   },
 ];
 
